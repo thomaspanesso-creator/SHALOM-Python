@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Shalom Spa - Entrevista de Selección</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #fff0f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .chat-container {
+            width: 450px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            height: 600px;
+        }
+
+        .header {
+            background: #d87093;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .chat-box {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #fafafa;
+        }
+
+        .message {
+            padding: 10px 14px;
+            border-radius: 8px;
+            max-width: 80%;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+
+        .ia {
+            background: #f0e6ef;
+            align-self: flex-start;
+            color: #333;
+        }
+
+        .user {
+            background: #d87093;
+            align-self: flex-end;
+            color: white;
+        }
+
+        .input-area {
+            display: flex;
+            border-top: 1px solid #eee;
+            padding: 10px;
+            background: white;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        button {
+            background: #d87093;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-left: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #c71585;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="chat-container">
+        <div class="header">Shalom Spa - Asistente de Selección</div>
+        <div class="chat-box" id="chatBox">
+            <div class="message ia">¡Hola! Bienvenida al proceso de selección de Shalom Spa. Cuéntame, ¿cuál es tu
+                nombre y cuánta experiencia tienes en el mundo del diseño y cuidado de uñas?</div>
+        </div>
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Escribe tu respuesta aquí..."
+                onkeypress="if(event.key === 'Enter') enviarMensaje()">
+            <button onclick="enviarMensaje()">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        async function enviarMensaje() {
+            const input = document.getElementById('userInput');
+            const chatBox = document.getElementById('chatBox');
+            const texto = input.value.trim();
+            if (!texto) return;
+
+            // Mostrar mensaje de la candidata en pantalla
+            chatBox.innerHTML += `<div class="message user">${texto}</div>`;
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Enviar respuesta al backend de Django
+            const formData = new FormData();
+            formData.append('mensaje_usuario', texto);
+
+            try {
+                // Nota el cambio en la URL para coincidir con la ruta de Django
+                const response = await fetch('/enviar_respuesta/', {method: 'POST', body: formData});
+                const data = await response.json();
+
+                // Mostrar la nueva pregunta que genera la IA
+                chatBox.innerHTML += `<div class="message ia">${data.respuesta_ia}</div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            } catch (error) {
+                chatBox.innerHTML += `<div class="message ia" style="color: red;">Error al conectar con el servidor de Django.</div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+    </script>
+</body>
+
+</html>
