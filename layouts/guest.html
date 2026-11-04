@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SHALOM — Beauty Salon</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Parisienne&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main:#FFF7FA;
+            --bg-sec:#FFF0F5;
+            --pink-pastel:#FFE5EE;
+            --pink-light:#FFD0DF;
+            --pink:#F58AAF;
+            --fuchsia:#E94F87;
+            --pink-dark:#C9366C;
+            --white:#FFFFFF;
+            --text-sec:#6B5B68;
+            --text-main:#3F3540;
+            --line:#F3D9E3;
+            --shadow:0 18px 40px rgba(201,54,108,.12);
+            --shadow-soft:0 10px 28px rgba(201,54,108,.08);
+        }
+        body {
+            font-family:'Poppins',sans-serif;
+            background:linear-gradient(135deg,var(--bg-main),var(--pink-pastel));
+            min-height:100vh;
+            color:var(--text-main);
+        }
+        .auth-container{min-height:100vh;display:flex;justify-content:center;align-items:center;padding:40px 20px;position:relative;overflow:hidden}
+        .auth-container:before{content:'';position:absolute;top:-120px;right:-120px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(245,138,175,.18),transparent 65%)}
+        .auth-container:after{content:'';position:absolute;bottom:-120px;left:-120px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(233,79,135,.12),transparent 65%)}
+        .auth-card {
+            background:#fff;
+            border-radius:32px;
+            overflow:hidden;
+            box-shadow:var(--shadow);
+            max-width:1080px;
+            width:100%;
+            position:relative;
+            z-index:1;
+            border:1px solid var(--line);
+        }
+        .auth-image{
+            background:linear-gradient(160deg,var(--pink-pastel),var(--bg-sec));
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:40px 30px;
+            position:relative;
+            flex-direction:column;
+        }
+        .auth-image .auth-brand{
+            font-family:'Playfair Display',serif;
+            font-size:2rem;
+            font-weight:700;
+            letter-spacing:.16em;
+            color:var(--pink-dark);
+            text-align:center;
+            margin-bottom:8px;
+        }
+        .auth-image .auth-sub{
+            font-family:'Parisienne',cursive;
+            font-size:1.4rem;
+            color:var(--fuchsia);
+            text-align:center;
+            margin-bottom:22px;
+        }
+        .auth-image img{width:100%;max-width:380px;border-radius:24px;border:6px solid var(--white);box-shadow:var(--shadow-soft);object-fit:cover}
+        .auth-form{padding:52px;position:relative}
+        .auth-form:before{content:'';position:absolute;top:22px;right:38px;width:14px;height:14px;border-radius:50%;background:var(--pink-light);opacity:.55}
+        .brand-title{
+            font-family:'Playfair Display',serif;
+            font-size:2.6rem;
+            font-weight:700;
+            letter-spacing:.1em;
+            color:var(--pink-dark);
+            text-align:center;
+            display:block;
+        }
+        .brand-subtitle{
+            font-family:'Parisienne',cursive;
+            color:var(--fuchsia);
+            text-align:center;
+            margin-bottom:30px;
+            font-size:1.35rem;
+        }
+        .form-control,.form-select{
+            background:#fff;
+            border:1.5px solid var(--line);
+            border-radius:14px;
+            padding:13px 16px;
+            font-size:.86rem;
+            transition:.3s;
+            color:var(--text-main);
+        }
+        .form-control:focus,.form-select:focus{border-color:var(--pink);box-shadow:0 0 0 .22rem rgba(245,138,175,.16);background:#fff}
+        .form-label{font-weight:500;font-size:.8rem;color:var(--text-main)}
+        .btn-divinas{
+            background:linear-gradient(135deg,var(--fuchsia),var(--pink));
+            color:#fff;
+            border:none;
+            border-radius:999px;
+            padding:14px;
+            width:100%;
+            font-weight:600;
+            font-size:.9rem;
+            box-shadow:0 8px 22px rgba(233,79,135,.4);
+            transition:.3s;
+        }
+        .btn-divinas:hover{background:var(--pink-dark);color:#fff;transform:translateY(-2px);box-shadow:0 12px 30px rgba(233,79,135,.5)}
+        .auth-quote{
+            font-family:'Parisienne',cursive;
+            color:var(--pink);
+            font-size:1.2rem;
+            text-align:center;
+            margin-top:24px;
+        }
+        .alert{border-radius:14px;border:none}
+        @media (max-width:767px){
+            .auth-form{padding:32px 24px}
+            .auth-image{padding:28px 20px}
+            .brand-title{font-size:2rem}
+        }
+    </style>
+</head>
+<body>
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="row g-0">
+            <div class="col-md-5 auth-image">
+                <span class="auth-brand">SHALOM</span>
+                <span class="auth-sub">Beauty Salon</span>
+                <img src="/img/register.jpg" alt="SHALOM Beauty Salon">
+                <p class="auth-quote">Tu belleza, nuestra pasión</p>
+            </div>
+            <div class="col-md-7 auth-form">
+                <span class="brand-title">SHALOM</span>
+                <p class="brand-subtitle">Beauty Salon · Crea tu cuenta y agenda tu glow up</p>
+                <th:block th:replace="~{${viewName}}"/>
+                <p class="auth-quote mt-3">“Realza tu belleza, siéntete increíble”</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var success = document.getElementById('flash-success');
+    if (success) {
+        Swal.fire({ icon: 'success', title: '¡Éxito!', text: success.textContent, timer: 2500, showConfirmButton: false });
+    }
+});
+</script>
+</body>
+</html>

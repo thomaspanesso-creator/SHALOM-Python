@@ -1,0 +1,25 @@
+<div class="modal fade modal-shalom" id="logoutModal" tabindex="-1"
+     aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:460px;">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="modal-deco">
+                    <i class="bi bi-flower2"></i>
+                </div>
+                <h3 class="modal-shalom-title" id="logoutModalLabel">¿Estás segura?</h3>
+                <p class="modal-shalom-script">Shalom Beauty Salon</p>
+                <p class="modal-shalom-text">¿Deseas cerrar tu sesión? Te esperamos pronto para seguir consintiéndote.</p>
+                <div class="d-flex flex-column gap-2">
+                    <form action="/logout" method="post" class="w-100">
+                        <button type="submit" class="btn btn-primary-hero w-100">
+                            <i class="bi bi-box-arrow-right"></i> SÍ, SALIR
+                        </button>
+                    </form>
+                    <button type="button" class="btn btn-outline-hero w-100" data-bs-dismiss="modal">
+                        CANCELAR
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

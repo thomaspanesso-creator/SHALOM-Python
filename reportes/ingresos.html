@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ingresos Estimados — SHALOM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- LIBRERÍA AGREGADA: SheetJS para convertir tablas HTML a Excel -->
+    <script src="https://jsdelivr.net"></script>
+</head>
+
+<body>
+    {% include 'layouts/navbar.html' %}
+    <main>
+        <div class="container-lg py-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="section-title mb-0"><i class="bi bi-cash-stack"></i> Ingresos Estimados</h2>
+                <div>
+                    <!-- BOTÓN AGREGADO: Ejecuta la descarga en formato Excel -->
+                    <button onclick="exportarIngresosAExcel()" class="btn btn-success me-2">
+                        <i class="bi bi-file-earmark-excel"></i> Descargar Excel
+                    </button>
+                    <a class="btn btn-outline-secondary" href="{{ '/dashboard' }}"><i class="bi bi-arrow-left"></i>
+                        Volver</a>
+                </div>
+            </div>
+            <div class="card dashboard-card mb-4">
+                <div class="card-body text-center p-4">
+                    <h3 class="text-muted">Ingresos totales estimados</h3>
+                    <h1 class="mt-2" style="color:#6f7f5d;font-weight:700;">$<span>{{ (ingresos)|number }}</span></h1>
+                </div>
+            </div>
+            <div class="appointments-card">
+                <div class="table-responsive">
+                    <!-- ID AGREGADO: Identifica esta tabla en JavaScript -->
+                    <table class="table" id="tablaIngresos">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Servicio</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cita in citas %}<tr>
+                                <td>{{ (cita.user.name) if (cita.user != none) else ('N/A') }}</td>
+                                <td>{{ (cita.service.name) if (cita.service != none) else ('N/A') }}</td>
+                                <td>$<span>{{ (((cita.service.price)|number)) if (cita.service != none) else ('0') }}</span>
+                                </td>
+                            </tr>{% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/app.js"></script>
+
+    <!-- SCRIPT AGREGADO: Procesa los datos y descarga el reporte -->
+    <script>
+        function exportarIngresosAExcel() {
+            // Captura la tabla de ingresos mediante su identificador
+            var tabla = document.getElementById('tablaIngresos');
+
+            // Transforma el HTML físico a un formato comprensible por Excel
+            var libro = XLSX.utils.table_to_book(tabla, { sheet: "Ingresos Estimados" });
+
+            // Dispara la descarga con el nombre específico de este balance financiero
+            XLSX.writeFile(libro, 'Reporte_Ingresos_Shalom.xlsx');
+        }
+    </script>
+</body>
+
+</html>

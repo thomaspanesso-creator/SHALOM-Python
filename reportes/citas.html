@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reporte de Citas — SHALOM</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <link href="https://googleapis.com" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
+    <script src="https://jsdelivr.net"></script>
+
+    <!-- 1. LIBRERÍA AGREGADA: SheetJS para convertir tablas HTML a Excel -->
+    <script src="https://jsdelivr.net"></script>
+</head>
+
+<body>
+    {% include 'layouts/navbar.html' %}
+    <main>
+        <div class="container-lg py-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="section-title mb-0"><i class="bi bi-calendar-check"></i> Últimas Citas</h2>
+                <div>
+                    <!-- 2. BOTÓN AGREGADO: Llama a la función de JavaScript al hacer clic -->
+                    <button onclick="exportarTablaAExcel()" class="btn btn-success me-2">
+                        <i class="bi bi-file-earmark-excel"></i> Descargar Excel
+                    </button>
+                    <a class="btn btn-outline-secondary" href="{{ '/dashboard' }}"><i class="bi bi-arrow-left"></i>
+                        Volver</a>
+                </div>
+            </div>
+            <div class="appointments-card">
+                <div class="table-responsive">
+                    <!-- 3. ID AGREGADO: Añadimos id="tablaCitas" para identificarla en JS -->
+                    <table class="table" id="tablaCitas">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Servicio</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cita in citas %}<tr>
+                                <td>{{ (cita.user.name) if (cita.user != none) else ('N/A') }}</td>
+                                <td>{{ (cita.service.name) if (cita.service != none) else ('N/A') }}</td>
+                                <td>{{ cita.date|temporal('dd/MM/yyyy') }}</td>
+                                <td>{{ cita.time|temporal('HH:mm') }}</td>
+                                <td>{{ cita.status }}</td>
+                            </tr>{% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="https://jsdelivr.net"></script>
+    <script src="/js/app.js"></script>
+
+    <!-- 4. SCRIPT AGREGADO: Función que procesa y descarga el reporte -->
+    <script>
+        function exportarTablaAExcel() {
+            // Captura el elemento de la tabla por su ID
+            var tabla = document.getElementById('tablaCitas');
+
+            // Convierte la tabla física de HTML en un objeto de hoja de cálculo (Workbook)
+            var libro = XLSX.utils.table_to_book(tabla, { sheet: "Reporte Citas" });
+
+            // Genera el archivo .xlsx y fuerza la descarga en el navegador del usuario
+            XLSX.writeFile(libro, 'Reporte_Citas_Shalom.xlsx');
+        }
+    </script>
+</body>
+
+</html>

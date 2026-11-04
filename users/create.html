@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nuevo Usuario — SHALOM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Parisienne&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="/css/shalom-reset.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+{% include 'layouts/navbar.html' %}
+<main>
+    {% include 'layouts/messages.html' %}
+    <div class="container-lg py-4">
+        <div class="card card-page p-4">
+            <h3 class="section-title"><i class="bi bi-person-plus"></i> Nuevo Usuario</h3>
+            <form action="/users" method="post" novalidate>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" for="name">Nombre</label>
+                        <input type="text" id="name" name="name" class="form-control {{ 'is-invalid' if errors.get('name') else '' }}" maxlength="100" minlength="2" required
+                               value="{{ form.get('name', '') }}" pattern="[A-Za-zÁÉÍÓÚÜÑáéíóúüñÀÈÌÒÙàèìòùÂÊÎÔÛâêîôûÇç' .\-]+"
+                               title="Solo letras, espacios, apóstrofos y guiones">
+                        {% if errors.get('name') %}<div class="invalid-feedback d-block">{{ errors.get('name') }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" for="lastName">Apellido</label>
+                        <input type="text" id="lastName" name="lastName" class="form-control {{ 'is-invalid' if errors.get('lastName') else '' }}" maxlength="100" minlength="2"
+                               value="{{ form.get('lastName', '') }}" pattern="[A-Za-zÁÉÍÓÚÜÑáéíóúüñÀÈÌÒÙàèìòùÂÊÎÔÛâêîôûÇç' .\-]+"
+                               title="Solo letras, espacios, apóstrofos y guiones">
+                        {% if errors.get('lastName') %}<div class="invalid-feedback d-block">{{ errors.get('lastName') }}</div>{% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" for="email">Correo electrónico</label>
+                        <input type="email" id="email" name="email" class="form-control {{ 'is-invalid' if errors.get('email') else '' }}" maxlength="255" autocomplete="email" required
+                               value="{{ form.get('email', '') }}">
+                        {% if errors.get('email') %}<div class="invalid-feedback d-block">{{ errors.get('email') }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" for="phone">Teléfono</label>
+                        <input type="tel" id="phone" name="phone" class="form-control {{ 'is-invalid' if errors.get('phone') else '' }}" maxlength="20" autocomplete="tel"
+                               value="{{ form.get('phone', '') }}" pattern="[0-9+()\s.\-]{7,20}"
+                               title="Entre 7 y 15 dígitos; puede incluir +, -, espacios o paréntesis">
+                        {% if errors.get('phone') %}<div class="invalid-feedback d-block">{{ errors.get('phone') }}</div>{% endif %}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="role">Rol</label>
+                    <select class="form-select {{ 'is-invalid' if errors.get('role_id') else '' }}" id="role" name="role.id" required>
+                        <option value="">Selecciona un rol</option>
+                        {% for role in roles %}
+                        <option value="{{ role.id }}" {{ 'selected' if form.get('role_id')|string == role.id|string else '' }}>{{ role.name }}</option>
+                        {% endfor %}
+                    </select>
+                    {% if errors.get('role_id') %}<div class="invalid-feedback d-block">{{ errors.get('role_id') }}</div>{% endif %}
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" for="password">Contraseña</label>
+                        <input type="password" id="password" name="password" class="form-control {{ 'is-invalid' if errors.get('password') else '' }}" minlength="8" maxlength="128" autocomplete="new-password" required>
+                        <small class="text-muted">Mínimo 8 caracteres, con letras y números.</small>
+                        {% if errors.get('password') %}<div class="invalid-feedback d-block">{{ errors.get('password') }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" for="password_confirmation">Confirmar contraseña</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation" class="form-control {{ 'is-invalid' if errors.get('password') else '' }}" minlength="8" maxlength="128" autocomplete="new-password" required>
+                        {% if errors.get('password') %}<div class="invalid-feedback d-block">{{ errors.get('password') }}</div>{% endif %}
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-shalom-primary">Guardar</button>
+                    <a href="/users" class="btn btn-outline-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>

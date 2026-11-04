@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>INICIAR SESIÓN - SHALOM Beauty Salon</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Parisienne&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body class="auth-page">
+
+    <!-- Gradientes compartidos de la marca (siempre visibles) -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <linearGradient id="shHeart" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#FFCFE1"/><stop offset="1" stop-color="#E94F87"/>
+            </linearGradient>
+            <linearGradient id="shStar" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#F8A6C4"/><stop offset="1" stop-color="#C9366C"/>
+            </linearGradient>
+            <linearGradient id="shGem" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#FFE0EC"/><stop offset="1" stop-color="#E94F87"/>
+            </linearGradient>
+            <linearGradient id="shCrown" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffffff"/><stop offset=".4" stop-color="#FFD0DF"/><stop offset="1" stop-color="#E94F87"/>
+            </linearGradient>
+            <linearGradient id="shBrandGem" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#FFD6E3"/><stop offset="1" stop-color="#E94F87"/>
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <!-- Ornamentos flotantes de la pagina -->
+    <svg class="float-ornament fo-1" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="url(#shHeart)" d="M12 21s-7.5-4.9-9.3-9.2C1.3 8.2 3.6 5 6.9 5c2 0 3.7 1 5.1 2.9C13.4 6 15.1 5 17.1 5c3.3 0 5.6 3.2 4.2 6.8C19.5 16.1 12 21 12 21z"/>
+    </svg>
+    <svg class="float-ornament fo-2" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="url(#shStar)" d="M12 0l2.6 7.6 7.6 1.4-5.6 5.4 1.5 7.6L12 17.4 6.1 22l1.5-7.6L2 9l7.6-1.4z"/>
+    </svg>
+    <svg class="float-ornament fo-3" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="url(#shGem)" d="M12 2l9 10-9 10-9-10z"/>
+        <path stroke="rgba(255,255,255,.8)" stroke-width="1" fill="none" d="M4.5 12h15"/>
+    </svg>
+    <svg class="float-ornament fo-4" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="url(#shHeart)" d="M12 2l2.9 6.2 6.8.7-5 4.6 1.4 6.7L12 17l-6.1 3.2 1.4-6.7-5-4.6 6.8-.7z"/>
+    </svg>
+    <svg class="float-ornament fo-5" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="#ffffff" opacity=".95" d="M12 0l2.6 7.6 7.6 1.4-5.6 5.4 1.5 7.6L12 17.4 6.1 22l1.5-7.6L2 9l7.6-1.4z"/>
+    </svg>
+    <svg class="float-ornament fo-6" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="url(#shStar)" d="M12 2l2 5.5L19.5 9l-4 3.5 1.2 5.5L12 15.5 6.3 18l1.2-5.5-4-3.5L10 7.5z"/>
+    </svg>
+
+    <!-- ================== PAGINA LOGIN (unico formulario) ================== -->
+    <div class="auth-wrap">
+
+        <header class="brand-head brand-head-hero">
+            <div class="brand-name-row">
+                <svg class="brand-diamond" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="url(#shBrandGem)" d="M12 1.5l9 10.5-9 10.5-9-10.5z"/>
+                    <path stroke="rgba(255,255,255,.85)" stroke-width="1" fill="none" d="M4 12h16"/>
+                    <path fill="rgba(255,255,255,.5)" d="M12 1.5L8 12h4z"/>
+                </svg>
+                <h1 class="brand-logo">SHALOM</h1>
+            </div>
+            <span class="brand-sub">Beauty Salon</span>
+            <div class="brand-divider">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="url(#shGem)" d="M12 2l9 10-9 10-9-10z"/>
+                </svg>
+            </div>
+        </header>
+
+        <section class="auth-panel login-panel">
+            <div class="panel-ornaments" aria-hidden="true">
+                <svg class="po-crown" viewBox="0 0 24 24">
+                    <path fill="url(#shCrown)" d="M3.5 8.5L7 12.5L12 5.5L17 12.5L20.5 8.5L18.5 16.5H5.5z"/>
+                    <path fill="url(#shCrown)" d="M5 17.5h14v2H5z"/>
+                </svg>
+                <svg class="po-star" viewBox="0 0 24 24">
+                    <path fill="url(#shStar)" d="M12 2l2.9 6.2 6.8.7-5 4.6 1.4 6.7L12 17l-6.1 3.2 1.4-6.7-5-4.6 6.8-.7z"/>
+                </svg>
+                <svg class="po-heart" viewBox="0 0 24 24">
+                    <path fill="url(#shHeart)" d="M12 21s-7.5-4.9-9.3-9.2C1.3 8.2 3.6 5 6.9 5c2 0 3.7 1 5.1 2.9C13.4 6 15.1 5 17.1 5c3.3 0 5.6 3.2 4.2 6.8C19.5 16.1 12 21 12 21z"/>
+                </svg>
+                <svg class="po-gem" viewBox="0 0 24 24">
+                    <path fill="url(#shGem)" d="M12 2l9 10-9 10-9-10z"/>
+                </svg>
+            </div>
+
+            <h2 class="panel-title">INICIAR SESIÓN</h2>
+            <p class="panel-script">Tu belleza, nuestra prioridad</p>
+            <p class="panel-text">
+                Inicia sesión para acceder<br>
+                a tus citas, servicios y<br>
+                más sorpresas.
+            </p>
+            <div class="panel-heart-note" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <path fill="#E94F87" d="M12 2l2.9 6.2 6.8.7-5 4.6 1.4 6.7L12 17l-6.1 3.2 1.4-6.7-5-4.6 6.8-.7z"/>
+                </svg>
+            </div>
+
+            {% if request.args.get('error') %}
+            <div class="auth-alert" role="alert">
+                <i class="bi bi-exclamation-circle"></i>
+                <span>Credenciales incorrectas. Verifica tu correo y contraseña.</span>
+            </div>
+            {% endif %}
+
+            {% if request.args.get('logout') %}
+            <div class="auth-alert auth-alert-success" role="alert">
+                <i class="bi bi-check-circle"></i>
+                <span>Has cerrado sesión correctamente. ¡Te esperamos pronto!</span>
+            </div>
+            {% endif %}
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                <div class="auth-alert {% if category != 'error' %}auth-alert-success{% endif %}" role="alert">
+                    <i class="bi {% if category == 'error' %}bi-exclamation-circle{% else %}bi-check-circle{% endif %}"></i>
+                    <span>{{ message }}</span>
+                </div>
+                {% endfor %}
+            {% endwith %}
+
+            <form class="auth-form" method="post" action="/login" autocomplete="on">
+                <div class="field">
+                    <label class="form-label" for="login-email">Correo electrónico</label>
+                    <i class="bi bi-envelope-heart field-icon"></i>
+                    <input id="login-email" type="email" name="username" class="form-control"
+                           placeholder="Ingresa tu correo electrónico" required autofocus autocomplete="username" maxlength="255">
+                </div>
+                <div class="field">
+                    <label class="form-label" for="login-password">Contraseña</label>
+                    <i class="bi bi-lock field-icon"></i>
+                    <input id="login-password" type="password" name="password" class="form-control"
+                           placeholder="Ingresa tu contraseña" required autocomplete="current-password">
+                    <button type="button" class="toggle-pass" data-target="login-password" aria-label="Mostrar u ocultar contraseña">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                </div>
+
+                <div class="auth-options">
+                    <label class="remember">
+                        <input type="checkbox" name="remember-me" value="true">
+                        <span>Recordarme</span>
+                    </label>
+                    <a class="forgot-link" href="/forgot-password">
+                        ¿Olvidaste tu contraseña?
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7v3H4a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1h-1v-3a7 7 0 0 0-7-7zm-5 7a5 5 0 0 1 10 0v3H7z"/></svg>
+                    </a>
+                </div>
+
+                <button type="submit" class="btn-glossy">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M12 2l2.9 6.2 6.8.7-5 4.6 1.4 6.7L12 17l-6.1 3.2 1.4-6.7-5-4.6 6.8-.7z"/></svg>
+                    INICIAR SESIÓN
+                </button>
+            </form>
+
+            {% if google_enabled %}
+                <div class="divider">
+                    <span class="divider-jewel">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#E94F87" d="M12 2l9 10-9 10-9-10z"/></svg>
+                    </span>
+                    o
+                    <span class="divider-jewel">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#E94F87" d="M12 2l9 10-9 10-9-10z"/></svg>
+                    </span>
+                </div>
+                <a class="btn-google" href="/auth/google">
+                    <svg viewBox="0 0 48 48" aria-hidden="true">
+                        <path fill="#EA4335" d="M24 9.5c3.5 0 6.5 1.2 9 3.6l6.7-6.7C35.4 2.6 30.1 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.3 13 17.7 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.8 24.5c0-1.6-.1-3.1-.4-4.5H24v8.6h12.8c-.6 2.9-2.3 5.4-4.8 7.1l7.4 5.8c4.3-4 6.9-9.9 6.9-17z"/>
+                        <path fill="#FBBC05" d="M10.5 28.2c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C1 15.4 0 19.6 0 24s1 8.6 2.6 12.3l7.9-6.1z"/>
+                        <path fill="#34A853" d="M24 48c6.1 0 11.3-2 15.1-5.5l-7.4-5.8c-2.1 1.4-4.7 2.3-7.7 2.3-6.3 0-11.7-3.5-14.2-8.6l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/>
+                    </svg>
+                    Continuar con Google
+                </a>
+            {% endif %}
+
+            <div class="switch-call">
+                ¿No tienes una cuenta?
+                <a href="/register">
+                    Crear una cuenta
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 11h13.2l-5.6-5.6L13 4l8 8-8 8-1.4-1.4 5.6-5.6H4z"/></svg>
+                </a>
+            </div>
+            <span class="halftone-strip" aria-hidden="true"></span>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function () {
+            document.querySelectorAll('.toggle-pass').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var input = document.getElementById(btn.dataset.target);
+                    if (!input) return;
+                    var show = input.type === 'password';
+                    input.type = show ? 'text' : 'password';
+                    btn.innerHTML = show ? '<i class="bi bi-eye-slash"></i>' : '<i class="bi bi-eye"></i>';
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

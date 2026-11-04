@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nuevo Producto — SHALOM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Parisienne&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="/css/shalom-reset.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
+</head>
+<body>
+{% include 'layouts/navbar.html' %}
+<main>
+    <div class="container-lg py-4">
+        <div class="card card-page p-4">
+            <h3 class="section-title"><i class="bi bi-box-seam"></i> Nuevo Producto</h3>
+            <form action="/inventory" method="post" novalidate>
+                <div class="mb-3">
+                    <label class="form-label" for="productName">Nombre del producto</label>
+                    <input type="text" id="productName" name="productName" class="form-control {{ 'is-invalid' if errors.get('productName') else '' }}" maxlength="255" minlength="2" required
+                           value="{{ form.get('productName', '') }}">
+                    {% if errors.get('productName') %}<div class="invalid-feedback d-block">{{ errors.get('productName') }}</div>{% endif %}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="brand">Marca</label>
+                    <input type="text" id="brand" name="brand" class="form-control {{ 'is-invalid' if errors.get('brand') else '' }}" maxlength="255"
+                           value="{{ form.get('brand', '') }}">
+                    {% if errors.get('brand') %}<div class="invalid-feedback d-block">{{ errors.get('brand') }}</div>{% endif %}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="minStock">Stock mínimo (alerta)</label>
+                    <input type="number" id="minStock" name="minStock" min="0" step="1" class="form-control {{ 'is-invalid' if errors.get('minStock') else '' }}"
+                           value="{{ form.get('minStock', 5) }}">
+                    {% if errors.get('minStock') %}<div class="invalid-feedback d-block">{{ errors.get('minStock') }}</div>{% endif %}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="category">Categoría</label>
+                    {% set cat = form.get('category', '') %}
+                    <select class="form-select {{ 'is-invalid' if errors.get('category') else '' }}" id="category" name="category" required>
+                        <option value="">Selecciona una categoría</option>
+                        <option value="Uñas" {{ 'selected' if cat == 'Uñas' else '' }}>Uñas</option>
+                        <option value="Cuidado" {{ 'selected' if cat == 'Cuidado' else '' }}>Cuidado</option>
+                        <option value="Facial" {{ 'selected' if cat == 'Facial' else '' }}>Facial</option>
+                        <option value="Manos" {{ 'selected' if cat == 'Manos' else '' }}>Manos</option>
+                        <option value="Suministros" {{ 'selected' if cat == 'Suministros' else '' }}>Suministros</option>
+                        <option value="Otros" {{ 'selected' if cat == 'Otros' else '' }}>Otros</option>
+                    </select>
+                    {% if errors.get('category') %}<div class="invalid-feedback d-block">{{ errors.get('category') }}</div>{% endif %}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="description">Descripción</label>
+                    <textarea class="form-control {{ 'is-invalid' if errors.get('description') else '' }}" id="description" name="description" rows="3" maxlength="1000">{{ form.get('description', '') }}</textarea>
+                    {% if errors.get('description') %}<div class="invalid-feedback d-block">{{ errors.get('description') }}</div>{% endif %}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="price">Precio</label>
+                    <input type="number" id="price" name="price" step="0.01" min="0" max="9999999.99" class="form-control {{ 'is-invalid' if errors.get('price') else '' }}" required
+                           value="{{ form.get('price', '') }}">
+                    {% if errors.get('price') %}<div class="invalid-feedback d-block">{{ errors.get('price') }}</div>{% endif %}
+                </div>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-shalom-primary">Guardar</button>
+                    <a href="/inventory" class="btn btn-outline-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

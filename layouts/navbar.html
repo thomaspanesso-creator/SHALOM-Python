@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg shalom-nav">
+    <div class="container">
+        <a class="navbar-brand" href="/">SHALOM <i class="bi bi-gem brand-icon"></i></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Abrir menú">
+            <i class="bi bi-list fs-2"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center nav-pill">
+                {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard"><i class="bi bi-grid-1x2-fill"></i> Panel</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/appointments"><i class="bi bi-calendar2-heart-fill"></i> Citas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/mi-tarjeta"><i class="bi bi-person-vcard-fill"></i> Mi tarjeta</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/services"><i class="bi bi-stars"></i> Servicios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/specialists"><i class="bi bi-person-hearts"></i> Especialistas</a>
+                </li>
+                {% endif %}
+                {% if is_admin %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/fidelizacion"><i class="bi bi-award-fill"></i> Fidelización</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/inventory"><i class="bi bi-box-seam-fill"></i> Inventario</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users"><i class="bi bi-people-fill"></i> Usuarios</a>
+                </li>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile"><i class="bi bi-person-circle"></i> Mi perfil</a>
+                </li>
+                <li class="nav-item">
+                    <form action="/logout" method="post">
+                        <button class="nav-link border-0 bg-transparent" type="submit"><i class="bi bi-box-arrow-right"></i> Salir</button>
+                    </form>
+                </li>
+                {% endif %}
+                {% if not current_user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/"><i class="bi bi-house-heart-fill"></i> Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login"><i class="bi bi-box-arrow-in-right"></i> Ingresar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-register" href="/register"><i class="bi bi-person-plus-fill"></i> Crear cuenta</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

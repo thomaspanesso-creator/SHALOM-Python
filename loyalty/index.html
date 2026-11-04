@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fidelización — SHALOM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Parisienne&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="/css/shalom-reset.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+{% include 'layouts/navbar.html' %}
+<main>
+    {% include 'layouts/messages.html' %}
+    <div class="container-lg py-4">
+        <h2 class="section-title mb-4"><i class="bi bi-award"></i> Fidelización</h2>
+        <div class="appointments-card">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead><tr><th>Cliente</th><th>Sellos</th><th>Servicios Gratuitos</th><th>Acciones</th></tr></thead>
+                    <tbody>
+                        {% for card in cards %}<tr>
+                            <td>{{ (card.user.name) if (card.user != none) else ('—') }}</td>
+                            <td>{{ card.stamps|string + ' / 9' }}</td>
+                            <td>{{ card.available_rewards }}</td>
+                            <td>
+                                <form method="post" action="{{ '/fidelizacion/' ~ (card.user.id) ~ '/sello' }}">
+                                    <button class="btn btn-sm btn-shalom-pink"><i class="bi bi-stamp"></i> Agregar sello</button>
+                                </form>
+                            </td>
+                        </tr>{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>

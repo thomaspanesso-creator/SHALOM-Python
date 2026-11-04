@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recuperar contraseña — SHALOM Beauty Salon</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Parisienne&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+<body class="auth-page">
+
+    <!-- Ornamentos flotantes de la pagina -->
+    <svg class="float-ornament fo-1" viewBox="0 0 24 24" aria-hidden="true">
+        <defs>
+            <linearGradient id="fgHeart" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#FFCFE1"/><stop offset="1" stop-color="#E94F87"/>
+            </linearGradient>
+            <linearGradient id="fgStar" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#F8A6C4"/><stop offset="1" stop-color="#C9366C"/>
+            </linearGradient>
+            <linearGradient id="fgGem" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#FFE0EC"/><stop offset="1" stop-color="#E94F87"/>
+            </linearGradient>
+        </defs>
+        <path fill="url(#fgHeart)" d="M12 21s-7.5-4.9-9.3-9.2C1.3 8.2 3.6 5 6.9 5c2 0 3.7 1 5.1 2.9C13.4 6 15.1 5 17.1 5c3.3 0 5.6 3.2 4.2 6.8C19.5 16.1 12 21 12 21z"/>
+    </svg>
+    <svg class="float-ornament fo-2" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="url(#fgStar)" d="M12 2l2.9 6.2 6.8.7-5 4.6 1.4 6.7L12 17l-6.1 3.2 1.4-6.7-5-4.6 6.8-.7z"/>
+    </svg>
+    <svg class="float-ornament fo-3" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="url(#fgGem)" d="M12 2l9 10-9 10-9-10z"/>
+    </svg>
+
+    <div class="single-wrap">
+
+        <section class="auth-panel">
+            <span class="halftone-strip" aria-hidden="true"></span>
+            <div class="panel-ornaments" aria-hidden="true">
+                <svg class="po-crown" viewBox="0 0 24 24">
+                    <defs>
+                        <linearGradient id="crownFg" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0" stop-color="#ffffff"/><stop offset=".4" stop-color="#FFD0DF"/><stop offset="1" stop-color="#E94F87"/>
+                        </linearGradient>
+                    </defs>
+                    <path fill="url(#crownFg)" d="M3.5 8.5L7 12.5L12 5.5L17 12.5L20.5 8.5L18.5 16.5H5.5z"/>
+                    <path fill="url(#crownFg)" d="M5 17.5h14v2H5z"/>
+                </svg>
+                <svg class="po-star" viewBox="0 0 24 24">
+                    <path fill="url(#fgStar)" d="M12 2l2.9 6.2 6.8.7-5 4.6 1.4 6.7L12 17l-6.1 3.2 1.4-6.7-5-4.6 6.8-.7z"/>
+                </svg>
+                <svg class="po-heart" viewBox="0 0 24 24">
+                    <path fill="url(#fgHeart)" d="M12 21s-7.5-4.9-9.3-9.2C1.3 8.2 3.6 5 6.9 5c2 0 3.7 1 5.1 2.9C13.4 6 15.1 5 17.1 5c3.3 0 5.6 3.2 4.2 6.8C19.5 16.1 12 21 12 21z"/>
+                </svg>
+                <svg class="po-gem" viewBox="0 0 24 24">
+                    <path fill="url(#fgGem)" d="M12 2l9 10-9 10-9-10z"/>
+                </svg>
+            </div>
+
+            <header class="brand-head">
+                <div class="brand-name-row">
+                    <svg class="brand-diamond" viewBox="0 0 24 24" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="brandGemFg" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#FFD6E3"/><stop offset="1" stop-color="#E94F87"/>
+                            </linearGradient>
+                        </defs>
+                        <path fill="url(#brandGemFg)" d="M12 1.5l9 10.5-9 10.5-9-10.5z"/>
+                        <path stroke="rgba(255,255,255,.85)" stroke-width="1" fill="none" d="M4 12h16"/>
+                        <path fill="rgba(255,255,255,.5)" d="M12 1.5L8 12h4z"/>
+                    </svg>
+                    <h1 class="brand-logo">SHALOM</h1>
+                </div>
+                <span class="brand-sub">Beauty Salon</span>
+                <div class="brand-divider">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="url(#fgGem)" d="M12 2l9 10-9 10-9-10z"/></svg>
+                </div>
+            </header>
+
+            <h2 class="panel-title">RECUPERAR CONTRASEÑA</h2>
+            <p class="panel-script">No te preocupes, bellísima</p>
+            <p class="panel-text">
+                Ingresa tu correo electrónico y recibirás<br>
+                un enlace para restablecer tu contraseña.
+            </p>
+
+            {% if emailNotFound %}
+            <div class="auth-alert" role="alert">
+                <i class="bi bi-exclamation-circle"></i>
+                <span>No encontramos una cuenta con ese correo.</span>
+            </div>
+            {% endif %}
+
+            {% if error %}
+            <div class="auth-alert" role="alert">
+                <i class="bi bi-exclamation-circle"></i>
+                <span>{{ error }}</span>
+            </div>
+            {% endif %}
+
+            {% if resetSent %}
+            <div class="reset-box" role="status">
+                <p class="reset-note">Tu enlace de restablecimiento (este entorno local no tiene SMTP, aquí lo tienes):</p>
+                <a class="reset-link" href="{{ resetLink }}">{{ resetLink }}</a>
+                <p class="reset-note">Válido por 1 hora y de un solo uso.</p>
+            </div>
+            {% endif %}
+
+            <form class="auth-form" method="post" action="{{ url_for('auth.forgot_password') }}">
+                <div class="field">
+                    <label class="form-label" for="forgot-email">Correo electrónico</label>
+                    <i class="bi bi-envelope-heart field-icon"></i>
+                    <input id="forgot-email" type="email" name="email" class="form-control {{ 'is-invalid' if error else '' }}"
+                           placeholder="Ingresa tu correo electrónico" required autocomplete="email" maxlength="255"
+                           value="{{ frEmail or '' }}">
+                </div>
+                <button type="submit" class="btn-glossy">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M12 2l2.9 6.2 6.8.7-5 4.6 1.4 6.7L12 17l-6.1 3.2 1.4-6.7-5-4.6 6.8-.7z"/></svg>
+                    Enviar enlace
+                </button>
+            </form>
+
+            <div class="switch-call">
+                ¿Recordaste tu contraseña?
+                <a href="{{ url_for('auth.login') }}">
+                    Volver a iniciar sesión
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 11h13.2l-5.6-5.6L13 4l8 8-8 8-1.4-1.4 5.6-5.6H4z"/></svg>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

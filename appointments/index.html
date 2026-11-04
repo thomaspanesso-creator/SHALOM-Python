@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mis Citas - SHALOM Beauty Salon</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Parisienne&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    {% if not (isAdmin) %}<link rel="stylesheet" href="{{ '/css/shalom.css' }}">{% endif %}
+    {% if isAdmin %}<link rel="stylesheet" href="{{ '/css/app.css' }}">{% endif %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+<!-- ===================== VISTA CLIENTE ===================== -->
+{% if not (isAdmin) %}<div>
+    {% with active = 'citas' %}{% include 'layouts/client-navbar.html' %}{% endwith %}
+    {% include 'layouts/logout-modal.html' %}
+    {% include 'layouts/messages.html' %}
+
+    <section class="page-hero">
+        <i class="bi bi-flower2 deco-flower hf1"></i>
+        <i class="bi bi-heart deco-heart hf2"></i>
+        <div class="container">
+            <div class="fade-up">
+                <span class="page-hero-eyebrow"><i class="bi bi-calendar-heart"></i> Tu agenda</span>
+                <h1 class="mt-3">Mis citas</h1>
+                <p class="page-hero-text">Administra tus próximas citas y consulta tu historial en Shalom.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container" style="max-width:1120px;">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 fade-up">
+                <div class="shalom-tabs">
+                    <button type="button" class="shalom-tab active" data-tab-group="citas" data-tab-target="proximas">
+                        <i class="bi bi-calendar-heart"></i> Próximas
+                    </button>
+                    <button type="button" class="shalom-tab" data-tab-group="citas" data-tab-target="historial">
+                        <i class="bi bi-clock-history"></i> Historial
+                    </button>
+                </div>
+                <a class="btn btn-primary-hero" href="{{ '/appointments/create' }}">
+                    <i class="bi bi-calendar-plus"></i> Agendar nueva cita
+                </a>
+            </div>
+
+            <!-- PANEL PRÓXIMAS -->
+            <div data-tab-panel="citas" data-tab-name="proximas" class="mt-5">
+                {% if proximasCitas %}<div class="featured-cita fade-up">
+                    <span class="fc-eyebrow"><i class="bi bi-flower2"></i> Próxima cita</span>
+                    <span class="fc-script">Te esperamos con gusto</span>
+                    <h2>{{ (proximasCitas[0].service.name) if (proximasCitas[0].service != none) else ('Cita') }}</h2>
+                    <div class="fc-divider"></div>
+                    <div class="row g-3">
+                        <div class="col-6 col-md-3">
+                            <div class="fc-item">
+                                <div class="ci-icon"><i class="bi bi-calendar-event"></i></div>
+                                <div class="fc-label">Fecha</div>
+                                <div class="fc-value">{{ proximasCitas[0].date|temporal('d MMM yyyy') }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="fc-item">
+                                <div class="ci-icon"><i class="bi bi-clock"></i></div>
+                                <div class="fc-label">Hora</div>
+                                <div class="fc-value">{{ proximasCitas[0].time|temporal('h:mm a') }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="fc-item">
+                                <div class="ci-icon"><i class="bi bi-person-hearts"></i></div>
+                                <div class="fc-label">Especialista</div>
+                                <div class="fc-value">{{ (proximasCitas[0].worker) if (proximasCitas[0].worker != none) else ('Por asignar') }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="fc-item">
+                                <div class="ci-icon"><i class="bi bi-geo-alt"></i></div>
+                                <div class="fc-label">Salón</div>
+                                <div class="fc-value">Shalom</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fc-divider"></div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a class="btn btn-outline-hero" href="{{ '/appointments/' ~ (proximasCitas[0].id) ~ '/edit' }}">
+                            <i class="bi bi-arrow-repeat"></i> Reprogramar cita
+                        </a>
+                        <form method="post"
+                              onsubmit="return confirm('¿Estás segura de que quieres cancelar esta cita?');" action="{{ '/appointments/' ~ (proximasCitas[0].id) ~ '/cancel' }}">
+                            <button type="submit" class="btn btn-ghost-danger">
+                                <i class="bi bi-x-circle"></i> Cancelar cita
+                            </button>
+                        </form>
+                    </div>
+                </div>{% endif %}
+
+                {% if not (not proximasCitas) %}<div class="d-flex flex-column gap-3 mt-4">
+                    {% for cita in proximasCitas %}{% if not loop.first %}<div class="historia-card fade-up">
+                        <div class="ci-icon"><i class="bi bi-flower2"></i></div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0">{{ (cita.service.name) if (cita.service != none) else ('Servicio') }}</h6>
+                            <small>{{ ((cita.date|temporal("EEEE, d 'de' MMMM 'de' yyyy"))) + ' · ' + ((cita.time|temporal('h:mm a'))) }}</small>
+                        </div>
+                        {% if ((cita.status) or '')|lower == 'pendiente' %}<span class="status-pill status-pendiente">
+                            <span class="dot"></span> Pendiente
+                        </span>{% endif %}
+                        {% if ((cita.status) or '')|lower == 'confirmada' %}<span class="status-pill status-confirmada">
+                            <span class="dot"></span> Confirmada
+                        </span>{% endif %}
+                    </div>{% endif %}{% endfor %}
+                </div>{% endif %}
+
+                {% if not proximasCitas %}<div class="empty-state fade-up">
+                    <div class="empty-icon"><i class="bi bi-calendar2-heart"></i></div>
+                    <h4 class="empty-script">Aún no tienes citas</h4>
+                    <h4 class="mb-2">Agenda tu momento Shalom</h4>
+                    <p>Reserva tu primera cita y deja que cuidemos de ti.</p>
+                    <a class="btn btn-primary-hero mt-3" href="{{ '/appointments/create' }}">
+                        <i class="bi bi-calendar-plus"></i> Agendar nueva cita
+                    </a>
+                </div>{% endif %}
+            </div>
+
+            <!-- PANEL HISTORIAL -->
+            <div data-tab-panel="citas" data-tab-name="historial" class="mt-5">
+                {% if not (not historialCitas) %}<div class="d-flex flex-column gap-3">
+                    {% for cita in historialCitas %}<div class="historia-card fade-up">
+                        <div class="ci-icon"><i class="bi bi-flower2"></i></div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0">{{ (cita.service.name) if (cita.service != none) else ('Servicio') }}</h6>
+                            <small>{{ cita.date|temporal("d 'de' MMMM 'de' yyyy") }}</small>
+                        </div>
+                        {% if ((cita.status) or '')|lower == 'pendiente' %}<span class="status-pill status-pendiente">
+                            <span class="dot"></span> Pendiente
+                        </span>{% endif %}
+                        {% if (((cita.status) or '')|lower == 'completada') or (((cita.status) or '')|lower == 'confirmada') %}<span class="status-pill status-completada">
+                            <span class="dot"></span> Completada
+                        </span>{% endif %}
+                        {% if ((cita.status) or '')|lower == 'cancelada' %}<span class="status-pill status-cancelada">
+                            <span class="dot"></span> Cancelada
+                        </span>{% endif %}
+                    </div>{% endfor %}
+                </div>{% endif %}
+                {% if not historialCitas %}<div class="empty-state">
+                    <div class="empty-icon"><i class="bi bi-clock-history"></i></div>
+                    <h4 class="empty-script">Tu historia empieza hoy</h4>
+                    <h4 class="mb-2">Todavía no tienes visitas</h4>
+                    <p>Tu historial aparecerá aquí cuando completes tu primera visita.</p>
+                </div>{% endif %}
+            </div>
+        </div>
+    </section>
+
+    {% include 'layouts/shalom-footer.html' %}
+</div>{% endif %}
+
+<!-- ===================== VISTA ADMIN (CRUD) ===================== -->
+{% if isAdmin %}<div>
+    {% include 'layouts/navbar.html' %}
+    <main>
+        {% include 'layouts/messages.html' %}
+        <div class="container-lg py-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="section-title mb-0"><i class="bi bi-calendar2-heart"></i> Citas</h2>
+                <div>
+                    <a class="btn btn-shalom-pink" href="{{ '/appointments/create' }}"><i class="bi bi-plus-lg"></i> Nueva Cita</a>
+                    <a class="btn btn-outline-pink" href="{{ '/appointments/calendar' }}"><i class="bi bi-calendar-week"></i> Calendario</a>
+                </div>
+            </div>
+            <div class="card card-page p-4">
+                {% if not appointments %}
+                    <div class="alert alert-info text-center">No hay citas registradas.</div>
+                {% endif %}
+                {% if not (not appointments) %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Servicio</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Especialista</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cita in appointments %}<tr>
+                                    <td>{{ (cita.user.name) if (cita.user != none) else ('N/A') }}</td>
+                                    <td>{{ (cita.service.name) if (cita.service != none) else ('N/A') }}</td>
+                                    <td>{{ cita.date|temporal('dd/MM/yyyy') }}</td>
+                                    <td>{{ cita.time|temporal('HH:mm') }}</td>
+                                    <td>{{ (cita.worker) if (cita.worker != none) else ('-') }}</td>
+                                    <td>
+                                        {% if ((cita.status) or '')|lower == 'confirmada' %}<span class="badge-confirmada">Confirmada</span>{% endif %}
+                                        {% if ((cita.status) or '')|lower == 'completada' %}<span class="badge-confirmada">Completada</span>{% endif %}
+                                        {% if ((cita.status) or '')|lower == 'pendiente' %}<span class="badge-pendiente">Pendiente</span>{% endif %}
+                                        {% if ((cita.status) or '')|lower == 'cancelada' %}<span class="badge-cancelada">Cancelada</span>{% endif %}
+                                    </td>
+                                    <td class="d-flex gap-2">
+                                        <a class="btn btn-sm btn-outline-secondary" href="{{ '/appointments/' ~ (cita.id) ~ '/edit' }}"><i class="bi bi-pencil"></i></a>
+                                        <form method="post" action="{{ '/appointments/' ~ (cita.id) ~ '/status' }}">
+                                            <input type="hidden" name="status" value="confirmada">
+                                            <button class="btn btn-sm btn-outline-success" type="submit"><i class="bi bi-check-lg"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>{% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+</div>{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+{% if not (isAdmin) %}<script src="/js/shalom.js"></script>{% endif %}
+{% if isAdmin %}<script src="/js/app.js"></script>{% endif %}
+</body>
+</html>

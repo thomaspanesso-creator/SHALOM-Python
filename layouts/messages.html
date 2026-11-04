@@ -1,0 +1,24 @@
+{% set flashed = get_flashed_messages(with_categories=true) %}
+{% if flashed %}
+    {% for category, message in flashed %}
+        {% if category == 'error' %}
+        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert" id="flash-error">
+            <span>{{ message }}</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% else %}
+        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert" id="flash-success">
+            <span>{{ message }}</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endif %}
+    {% endfor %}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var success = document.getElementById('flash-success');
+        var error = document.getElementById('flash-error');
+        if (success) Swal.fire({ icon: 'success', title: '¡Éxito!', text: success.textContent.trim(), timer: 2500, showConfirmButton: false });
+        if (error) Swal.fire({ icon: 'error', title: '¡Error!', text: error.textContent.trim(), timer: 3000, showConfirmButton: false });
+    });
+    </script>
+{% endif %}

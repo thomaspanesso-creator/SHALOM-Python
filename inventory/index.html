@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inventario — SHALOM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Parisienne&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="/css/shalom-reset.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+{% include 'layouts/navbar.html' %}
+<main>
+    {% include 'layouts/messages.html' %}
+    <div class="container-lg py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="section-title mb-0"><i class="bi bi-box-seam"></i> Inventario</h2>
+            <a class="btn btn-shalom-pink" href="{{ '/inventory/create' }}"><i class="bi bi-plus-lg"></i> Nuevo Producto</a>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-4"><div class="card dashboard-card"><div class="card-body text-center"><h2>{{ totalProductos }}</h2><p>Total de productos</p></div></div></div>
+            <div class="col-md-4"><div class="card dashboard-card"><div class="card-body text-center"><h2>{{ stockBajo }}</h2><p>Stock bajo</p></div></div></div>
+            <div class="col-md-4"><div class="card dashboard-card"><div class="card-body text-center"><h2>{{ sinStock }}</h2><p>Sin stock</p></div></div></div>
+        </div>
+
+        <div class="appointments-card">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead><tr><th>Producto</th><th>Marca</th><th>Categoría</th><th>Stock</th><th>Precio</th><th>Acciones</th></tr></thead>
+                    <tbody>
+                        {% for item in items %}<tr>
+                            <td>{{ item.product_name }}</td>
+                            <td>{{ (item.brand) if (item.brand != none) else ('—') }}</td>
+                            <td>{{ item.category }}</td>
+                            <td>
+                                {% if item.stock == 0 %}<span class="badge-cancelada">Sin stock</span>{% endif %}
+                                {% if item.stock > 0 and item.stock <= item.min_stock %}<span class="badge-pendiente">Bajo</span>{% endif %}
+                                {% if item.stock > item.min_stock %}<span class="badge-confirmada">{{ item.stock }}</span>{% endif %}
+                            </td>
+                            <td>$<span>{{ (item.price)|number }}</span></td>
+                            <td class="d-flex gap-2">
+                                <a class="btn btn-sm btn-outline-info" title="Movimientos" href="{{ '/inventory/' ~ (item.id) ~ '/movimientos' }}"><i class="bi bi-arrow-left-right"></i></a>
+                                <a class="btn btn-sm btn-outline-secondary" href="{{ '/inventory/' ~ (item.id) ~ '/edit' }}"><i class="bi bi-pencil"></i></a>
+                                <form method="post"
+                                      onsubmit="return confirm('¿Eliminar este producto?')" action="{{ '/inventory/' ~ (item.id) ~ '/delete' }}">
+                                    <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                </form>
+                                <form method="post" action="{{ '/carrito/anadir/' ~ (item.id) }}">
+                                    <button class="btn btn-sm btn-shalom-pink"><i class="bi bi-bag-plus"></i></button>
+                                </form>
+                            </td>
+                        </tr>{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>

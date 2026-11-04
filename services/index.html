@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="es"
+     >
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Servicios | SHALOM Beauty Salon</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
+
+    <!-- Fuentes SHALOM -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- CSS principal SHALOM -->
+    <link rel="stylesheet" href="{{ '/css/shalom.css' }}">
+
+    <style>
+
+        /* =========================================================
+           SERVICIOS - AJUSTES ESPECÍFICOS
+           Se mantiene la identidad visual de SHALOM
+        ========================================================= */
+
+        .services-page {
+            background: var(--bg-main);
+            min-height: 100vh;
+        }
+
+        /* HERO */
+
+        .services-hero {
+            padding-bottom: 35px;
+        }
+
+        /* CATEGORÍAS */
+
+        .service-categories {
+            width: min(1180px, 92%);
+            margin: 10px auto 55px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .category-card-shalom {
+            position: relative;
+            height: 245px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--line);
+            background: var(--white);
+            box-shadow: var(--shadow-soft);
+            cursor: pointer;
+            transition:
+                    transform .3s ease,
+                    box-shadow .3s ease,
+                    border-color .3s ease;
+        }
+
+        .category-card-shalom:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow);
+            border-color: var(--pink-light);
+        }
+
+        .category-card-shalom.active {
+            border: 2px solid var(--pink);
+            box-shadow: 0 16px 38px rgba(245, 138, 175, .22);
+            transform: translateY(-4px);
+        }
+
+        .category-card-shalom img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .5s ease;
+        }
+
+        .category-card-shalom:hover img {
+            transform: scale(1.06);
+        }
+
+        .category-card-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(
+                    to top,
+                    rgba(63, 53, 64, .86),
+                    rgba(63, 53, 64, .18) 65%,
+                    rgba(63, 53, 64, .04)
+                );
+        }
+
+        .category-card-content {
+            position: absolute;
+            left: 22px;
+            right: 22px;
+            bottom: 20px;
+            z-index: 2;
+            color: white;
+        }
+
+        .category-card-content span {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            opacity: .9;
+        }
+
+        .category-card-content h3 {
+            margin: 0;
+            font-family: var(--font-serif);
+            font-size: 25px;
+            font-weight: 600;
+            line-height: 1.15;
+        }
+
+        .category-card-content p {
+            margin: 6px 0 0;
+            font-family: var(--font-body);
+            font-size: 11px;
+            line-height: 1.5;
+            opacity: .9;
+        }
+
+        /* CONTENEDOR DE SERVICIOS */
+
+        .services-catalog {
+            width: min(1180px, 92%);
+            margin: 0 auto 75px;
+        }
+
+        .services-heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .services-heading .script {
+            font-family: var(--font-script);
+            color: var(--pink-dark);
+            font-size: 34px;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .services-heading h2 {
+            font-family: var(--font-serif);
+            color: var(--text-main);
+            font-size: clamp(30px, 4vw, 43px);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .services-heading p {
+            font-family: var(--font-body);
+            color: var(--text-sec);
+            font-size: 14px;
+            margin: 0 auto;
+            max-width: 650px;
+            line-height: 1.7;
+        }
+
+        .selected-category {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 17px;
+            padding: 7px 15px;
+            border-radius: 30px;
+            background: var(--pink-pastel);
+            color: var(--pink-dark);
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .5px;
+        }
+
+        /* GRID */
+
+        .services-grid-shalom {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        /* TARJETA */
+
+        .service-card-shalom {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            transition:
+                    transform .3s ease,
+                    box-shadow .3s ease;
+        }
+
+        .service-card-shalom:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .service-card-shalom.hidden-service {
+            display: none;
+        }
+
+        .service-card-image {
+            position: relative;
+            width: 100%;
+            height: 205px;
+            overflow: hidden;
+            background: var(--bg-sec);
+        }
+
+        .service-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform .45s ease;
+        }
+
+        .service-card-shalom:hover .service-card-image img {
+            transform: scale(1.045);
+        }
+
+        .service-category-label {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            padding: 6px 11px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, .94);
+            color: var(--pink-dark);
+            font-family: var(--font-body);
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .service-card-body {
+            padding: 22px;
+        }
+
+        .service-card-body h3 {
+            font-family: var(--font-serif);
+            color: var(--text-main);
+            font-size: 22px;
+            font-weight: 600;
+            line-height: 1.25;
+            margin: 0 0 9px;
+        }
+
+        .service-description-shalom {
+            font-family: var(--font-body);
+            color: var(--text-sec);
+            font-size: 12.5px;
+            line-height: 1.65;
+            min-height: 61px;
+            margin: 0;
+        }
+
+        .service-card-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 17px;
+            padding-top: 14px;
+            border-top: 1px solid var(--line);
+        }
+
+        .service-price-shalom {
+            color: var(--pink-dark);
+            font-family: var(--font-serif);
+            font-size: 19px;
+            font-weight: 600;
+        }
+
+        .service-duration-shalom {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-sec);
+            font-family: var(--font-body);
+            font-size: 11px;
+        }
+
+        .service-duration-shalom i {
+            color: var(--pink);
+        }
+
+        .reserve-service-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            width: 100%;
+            margin-top: 17px;
+            padding: 11px 16px;
+            border: 0;
+            border-radius: 30px;
+            background: var(--pink);
+            color: white;
+            text-decoration: none;
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .4px;
+            transition: .3s ease;
+        }
+
+        .reserve-service-btn:hover {
+            background: var(--pink-dark);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* ESTADO VACÍO */
+
+        .services-empty-shalom {
+            display: none;
+            padding: 55px 25px;
+            text-align: center;
+            border: 1px dashed var(--pink-light);
+            border-radius: var(--radius);
+            background: rgba(255,255,255,.7);
+        }
+
+        .services-empty-shalom.show {
+            display: block;
+        }
+
+        .services-empty-shalom i {
+            display: block;
+            color: var(--pink);
+            font-size: 35px;
+            margin-bottom: 12px;
+        }
+
+        .services-empty-shalom h3 {
+            font-family: var(--font-serif);
+            color: var(--text-main);
+            font-size: 23px;
+            margin-bottom: 7px;
+        }
+
+        .services-empty-shalom p {
+            margin: 0;
+            font-family: var(--font-body);
+            color: var(--text-sec);
+            font-size: 13px;
+        }
+
+        /* BOTÓN TODOS */
+
+        .category-reset {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .category-reset button {
+            border: 1px solid var(--pink-light);
+            background: transparent;
+            color: var(--pink-dark);
+            border-radius: 30px;
+            padding: 9px 18px;
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .3s ease;
+        }
+
+        .category-reset button:hover {
+            background: var(--pink-pastel);
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1100px) {
+
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .services-grid-shalom {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .service-categories,
+            .services-catalog {
+                width: 92%;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 14px;
+            }
+
+            .category-card-shalom {
+                height: 220px;
+            }
+
+            .category-card-content {
+                left: 16px;
+                right: 16px;
+                bottom: 16px;
+            }
+
+            .category-card-content h3 {
+                font-size: 21px;
+            }
+
+            .category-card-content p {
+                display: none;
+            }
+
+            .services-grid-shalom {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+        }
+
+        @media (max-width: 480px) {
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-card-shalom {
+                height: 190px;
+            }
+
+            .category-card-content h3 {
+                font-size: 24px;
+            }
+
+            .services-heading .script {
+                font-size: 30px;
+            }
+
+            .services-heading h2 {
+                font-size: 30px;
+            }
+
+            .service-card-image {
+                height: 220px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body class="services-page">
+
+<!-- NAVBAR REAL DEL CLIENTE -->
+{% with active = 'servicios' %}{% include 'layouts/client-navbar.html' %}{% endwith %}
+
+<!-- MODAL DE CERRAR SESIÓN -->
+{% include 'layouts/logout-modal.html' %}
+
+<!-- MENSAJES DEL SISTEMA -->
+{% include 'layouts/messages.html' %}
+
+
+<main>
+
+    <!-- =========================================================
+         HERO
+    ========================================================== -->
+
+    <section class="page-hero services-hero">
+
+        <div class="page-hero-center">
+
+            <div class="page-hero-eyebrow">
+                SHALOM BEAUTY SALON
+            </div>
+
+            <div class="page-hero-script">
+                Para ti
+            </div>
+
+            <h1>Nuestros servicios</h1>
+
+            <p class="page-hero-text">
+                Descubre nuestros servicios de belleza y encuentra
+                el cuidado perfecto para ti.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         CATEGORÍAS
+    ========================================================== -->
+
+    <section class="service-categories">
+
+        <div class="category-grid">
+
+            <!-- CABELLO -->
+
+            <button type="button"
+                    class="category-card-shalom active"
+                    data-category="Peluquería y Cabello"
+                    onclick="mostrarCategoria(this)">
+
+                <img src="/img/categorias/cabello.jpg"
+                     alt="Peluquería y Cabello">
+
+                <div class="category-card-overlay"></div>
+
+                <div class="category-card-content">
+
+                    <span>SHALOM</span>
+
+                    <h3>CABELLO</h3>
+
+                    <p>
+                        Cortes, color, peinados y tratamientos.
+                    </p>
+
+                </div>
+
+            </button>
+
+
+            <!-- MANOS Y PIES -->
+
+            <button type="button"
+                    class="category-card-shalom"
+                    data-category="Cuidado de Manos y Pies"
+                    onclick="mostrarCategoria(this)">
+
+                <img src="/img/categorias/manos-pies.jpg"
+                     alt="Cuidado de Manos y Pies">
+
+                <div class="category-card-overlay"></div>
+
+                <div class="category-card-content">
+
+                    <span>SHALOM</span>
+
+                    <h3>MANOS Y PIES</h3>
+
+                    <p>
+                        Manicura, pedicura y diseño de uñas.
+                    </p>
+
+                </div>
+
+            </button>
+
+
+            <!-- FACIAL -->
+
+            <button type="button"
+                    class="category-card-shalom"
+                    data-category="Estética Facial"
+                    onclick="mostrarCategoria(this)">
+
+                <img src="/img/categorias/facial.jpg"
+                     alt="Estética Facial">
+
+                <div class="category-card-overlay"></div>
+
+                <div class="category-card-content">
+
+                    <span>SHALOM</span>
+
+                    <h3>ESTÉTICA FACIAL</h3>
+
+                    <p>
+                        Limpiezas, hidratación y tratamientos.
+                    </p>
+
+                </div>
+
+            </button>
+
+
+            <!-- MIRADA -->
+
+            <button type="button"
+                    class="category-card-shalom"
+                    data-category="Mirada, Pestañas y Cejas"
+                    onclick="mostrarCategoria(this)">
+
+                <img src="/img/categorias/mirada.jpg"
+                     alt="Mirada, Pestañas y Cejas">
+
+                <div class="category-card-overlay"></div>
+
+                <div class="category-card-content">
+
+                    <span>SHALOM</span>
+
+                    <h3>MIRADA</h3>
+
+                    <p>
+                        Pestañas, cejas y maquillaje de ojos.
+                    </p>
+
+                </div>
+
+            </button>
+
+        </div>
+
+
+        <div class="category-reset">
+
+            <button type="button"
+                    onclick="mostrarTodos()">
+
+                <i class="bi bi-grid"></i>
+                Ver todos los servicios
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         CATÁLOGO
+    ========================================================== -->
+
+    <section class="services-catalog"
+             id="lista-servicios">
+
+        <div class="services-heading">
+
+            <div class="script">
+                Tu momento
+            </div>
+
+            <h2 id="categoria-title">
+                CABELLO
+            </h2>
+
+            <p id="categoria-description">
+                Descubre los servicios disponibles en esta categoría.
+            </p>
+
+            <div class="selected-category"
+                 id="selected-category">
+
+                <i class="bi bi-stars"></i>
+
+                <span id="selected-category-text">
+                    Peluquería y Cabello
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- SERVICIOS REALES DE LA BASE DE DATOS -->
+
+        <div class="services-grid-shalom"
+             id="services-grid">
+
+            {% for service in services %}<article class="service-card-shalom" data-category="{{ service.category }}">
+
+                <!-- IMAGEN -->
+
+                <div class="service-card-image">
+
+                    <img src="{{ service.image if service.image else '/img/categorias/cabello.jpg' }}" alt="{{ service.name }}">
+
+                    <span class="service-category-label">{{ (service.category) if (service.category != none) else ('Servicio') }}</span>
+
+                </div>
+
+
+                <!-- INFORMACIÓN -->
+
+                <div class="service-card-body">
+
+                    <h3>{{ service.name }}</h3>
+
+                    <p class="service-description-shalom">{{ (service.description) if (service.description) else ('Servicio de belleza SHALOM Beauty Salon.') }}</p>
+
+
+                    <div class="service-card-info">
+
+                        <span class="service-price-shalom">{{ ('$' + ((service.price)|number)) if (service.price != none) else ('Consultar') }}</span>
+
+                        <span class="service-duration-shalom">
+
+                            <i class="bi bi-clock"></i>
+
+                            <span>{{ (service.duration|string + ' min') if (service.duration != none) else ('Duración variable') }}</span>
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- RESERVAR -->
+
+                    <a class="reserve-service-btn" href="{{ '/appointments/create' ~ '?service_id=' ~ (service.id) }}">
+
+                        <i class="bi bi-calendar2-heart"></i>
+
+                        Reservar cita
+
+                    </a>
+
+                </div>
+
+            </article>{% endfor %}
+
+        </div>
+
+
+        <!-- SIN SERVICIOS -->
+
+        <div class="services-empty-shalom"
+             id="no-services">
+
+            <i class="bi bi-stars"></i>
+
+            <h3>
+                No hay servicios disponibles
+            </h3>
+
+            <p>
+                Actualmente no hay servicios registrados
+                en esta categoría.
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- FOOTER REAL DE SHALOM -->
+
+{% include 'layouts/shalom-footer.html' %}
+
+
+<!-- SCRIPTS -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="/js/shalom.js"></script>
+
+
+<script>
+
+    /*
+     * =========================================================
+     * FILTRO DE CATEGORÍAS
+     * =========================================================
+     */
+
+    function mostrarCategoria(boton) {
+
+        const categoria = boton.dataset.category;
+
+        const cards =
+            document.querySelectorAll(".service-card-shalom");
+
+        const botones =
+            document.querySelectorAll(".category-card-shalom");
+
+        const titulo =
+            document.getElementById("categoria-title");
+
+        const descripcion =
+            document.getElementById("categoria-description");
+
+        const selectedCategory =
+            document.getElementById("selected-category");
+
+        const selectedCategoryText =
+            document.getElementById("selected-category-text");
+
+        const noServices =
+            document.getElementById("no-services");
+
+        let encontrados = 0;
+
+
+        /* Quitar estado activo */
+
+        botones.forEach(function (item) {
+
+            item.classList.remove("active");
+
+        });
+
+
+        /* Activar categoría seleccionada */
+
+        boton.classList.add("active");
+
+
+        /* Mostrar servicios correspondientes */
+
+        cards.forEach(function (card) {
+
+            const cardCategory =
+                card.dataset.category;
+
+            if (cardCategory === categoria) {
+
+                card.classList.remove("hidden-service");
+
+                encontrados++;
+
+            } else {
+
+                card.classList.add("hidden-service");
+
+            }
+
+        });
+
+
+        /* Cambiar encabezado */
+
+        let nombreVisible = categoria;
+
+        if (categoria === "Peluquería y Cabello") {
+            nombreVisible = "CABELLO";
+        }
+
+        if (categoria === "Cuidado de Manos y Pies") {
+            nombreVisible = "MANOS Y PIES";
+        }
+
+        if (categoria === "Estética Facial") {
+            nombreVisible = "ESTÉTICA FACIAL";
+        }
+
+        if (categoria === "Mirada, Pestañas y Cejas") {
+            nombreVisible = "MIRADA";
+        }
+
+
+        titulo.textContent = nombreVisible;
+
+        descripcion.textContent =
+            "Descubre los servicios disponibles en esta categoría.";
+
+        selectedCategoryText.textContent =
+            categoria;
+
+        selectedCategory.style.display =
+            "inline-flex";
+
+
+        /* Estado vacío */
+
+        if (encontrados === 0) {
+
+            noServices.classList.add("show");
+
+        } else {
+
+            noServices.classList.remove("show");
+
+        }
+
+
+        /* Llevar al catálogo */
+
+        document.getElementById("lista-servicios")
+            .scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+    }
+
+
+    /*
+     * =========================================================
+     * MOSTRAR TODOS
+     * =========================================================
+     */
+
+    function mostrarTodos() {
+
+        const cards =
+            document.querySelectorAll(".service-card-shalom");
+
+        const botones =
+            document.querySelectorAll(".category-card-shalom");
+
+        const titulo =
+            document.getElementById("categoria-title");
+
+        const descripcion =
+            document.getElementById("categoria-description");
+
+        const selectedCategory =
+            document.getElementById("selected-category");
+
+        const noServices =
+            document.getElementById("no-services");
+
+
+        /* Quitar categoría activa */
+
+        botones.forEach(function (boton) {
+
+            boton.classList.remove("active");
+
+        });
+
+
+        /* Mostrar todos */
+
+        cards.forEach(function (card) {
+
+            card.classList.remove("hidden-service");
+
+        });
+
+
+        titulo.textContent =
+            "TODOS LOS SERVICIOS";
+
+        descripcion.textContent =
+            "Descubre todo lo que SHALOM Beauty Salon tiene preparado para ti.";
+
+
+        selectedCategory.style.display =
+            "none";
+
+
+        noServices.classList.remove("show");
+
+
+        document.getElementById("lista-servicios")
+            .scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+    }
+
+
+    /*
+     * =========================================================
+     * CARGA INICIAL
+     * =========================================================
+     *
+     * Al entrar mostramos CABELLO primero.
+     * Si no existen servicios de cabello, se muestra el
+     * estado vacío automáticamente.
+     */
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const primeraCategoria =
+            document.querySelector(".category-card-shalom.active");
+
+        if (primeraCategoria) {
+
+            const categoria =
+                primeraCategoria.dataset.category;
+
+            const cards =
+                document.querySelectorAll(".service-card-shalom");
+
+            const noServices =
+                document.getElementById("no-services");
+
+            let encontrados = 0;
+
+            cards.forEach(function (card) {
+
+                if (card.dataset.category === categoria) {
+
+                    card.classList.remove("hidden-service");
+
+                    encontrados++;
+
+                } else {
+
+                    card.classList.add("hidden-service");
+
+                }
+
+            });
+
+            if (encontrados === 0) {
+
+                noServices.classList.add("show");
+
+            }
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

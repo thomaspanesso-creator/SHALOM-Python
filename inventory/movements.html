@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Movimientos de Inventario — SHALOM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Parisienne&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="/css/shalom-reset.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+{% include 'layouts/navbar.html' %}
+<main>
+    {% include 'layouts/messages.html' %}
+    <div class="container-lg py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="section-title mb-0">
+                <i class="bi bi-arrow-left-right"></i>
+                Movimientos
+                {% if product %}<span>{{ '— ' + (product.product_name) }}</span>{% endif %}
+            </h2>
+            <a class="btn btn-outline-secondary" href="{{ '/inventory' }}"><i class="bi bi-arrow-left"></i> Volver</a>
+        </div>
+
+        <div class="card card-page p-4 mb-4">
+            <h5 class="mb-3">Registrar movimiento</h5>
+            <form method="post" action="{{ ('/inventory/' ~ (product.id) ~ '/movimientos') if (product) else ('/inventory/movimientos') }}" novalidate>
+                {% if not (product) %}<div class="mb-3">
+                    <label class="form-label" for="productId">Producto</label>
+                    <select id="productId" name="productId" class="form-select {{ 'is-invalid' if errors.get('productId') else '' }}" required>
+                        <option value="">Seleccionar producto...</option>
+                        {% for p in products %}<option value="{{ p.id }}" {{ 'selected' if form.get('productId')|string == p.id|string else '' }}>{{ p.product_name }} (Stock: {{ p.stock }})</option>{% endfor %}
+                    </select>
+                    {% if errors.get('productId') %}<div class="invalid-feedback d-block">{{ errors.get('productId') }}</div>{% endif %}
+                </div>{% endif %}
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label" for="movementType">Tipo</label>
+                        <select id="movementType" name="type" class="form-select {{ 'is-invalid' if errors.get('type') else '' }}" required>
+                            <option value="ENTRADA" {{ 'selected' if form.get('type') == 'ENTRADA' else '' }}>Entrada</option>
+                            <option value="SALIDA" {{ 'selected' if form.get('type') == 'SALIDA' else '' }}>Salida</option>
+                            <option value="AJUSTE" {{ 'selected' if form.get('type') == 'AJUSTE' else '' }}>Ajuste</option>
+                        </select>
+                        {% if errors.get('type') %}<div class="invalid-feedback d-block">{{ errors.get('type') }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" for="movementQuantity">Cantidad</label>
+                        <input type="number" min="0" step="1" id="movementQuantity" name="quantity" class="form-control {{ 'is-invalid' if errors.get('quantity') else '' }}" required
+                               value="{{ form.get('quantity', '') }}">
+                        {% if errors.get('quantity') %}<div class="invalid-feedback d-block">{{ errors.get('quantity') }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="movementReason">Razón</label>
+                        <input type="text" id="movementReason" name="reason" class="form-control {{ 'is-invalid' if errors.get('reason') else '' }}" maxlength="255"
+                               placeholder="Ej: Venta, reposición..." value="{{ form.get('reason', '') }}">
+                        {% if errors.get('reason') %}<div class="invalid-feedback d-block">{{ errors.get('reason') }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-shalom-pink w-100"><i class="bi bi-check-lg"></i> Guardar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="appointments-card">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead><tr><th>Fecha</th><th>Producto</th><th>Tipo</th><th>Cantidad</th><th>Stock Antes</th><th>Stock Después</th><th>Razón</th><th>Usuario</th></tr></thead>
+                    <tbody>
+                        {% for m in movements %}<tr>
+                            <td>{{ m.created_at|temporal('dd/MM/yyyy HH:mm') }}</td>
+                            <td>{{ m.product.product_name }}</td>
+                            <td>
+                                {% if m.type == 'ENTRADA' %}<span class="badge bg-success">Entrada</span>{% endif %}
+                                {% if m.type == 'SALIDA' %}<span class="badge bg-danger">Salida</span>{% endif %}
+                                {% if m.type == 'AJUSTE' %}<span class="badge bg-warning text-dark">Ajuste</span>{% endif %}
+                            </td>
+                            <td>
+                                <span>{{ ('+' ~ m.quantity) if (m.quantity > 0) else (m.quantity) }}</span>
+                            </td>
+                            <td>{{ m.stock_before }}</td>
+                            <td>{{ m.stock_after }}</td>
+                            <td>{{ (m.reason) if (m.reason != none) else ('—') }}</td>
+                            <td>{{ (m.user.name) if (m.user != none) else ('Sistema') }}</td>
+                        </tr>{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>

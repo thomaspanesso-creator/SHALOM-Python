@@ -1,0 +1,70 @@
+<nav class="navbar navbar-expand-xl">
+  <div class="container navbar-inner">
+    <a class="brand" href="/dashboard">
+      <span class="brand-name">SHALOM</span>
+      <span class="brand-sub">Beauty Salon</span>
+    </a>
+    <button class="navbar-toggler d-xl-none ms-auto" type="button" data-bs-toggle="collapse"
+            data-bs-target="#clientMenu" aria-label="Abrir menu"><i class="bi bi-list fs-2"></i></button>
+    <div class="collapse navbar-collapse t-nav-links" id="clientMenu">
+      <ul class="navbar-nav flex-column flex-xl-row flex-wrap align-items-xl-center">
+        <li class="nav-item">
+          <a class="t-nav-link{% if active == 'panel' %} active{% endif %}" href="/dashboard">
+            <i class="bi bi-house-heart-fill"></i> Panel
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="t-nav-link{% if active == 'citas' %} active{% endif %}" href="/appointments">
+            <i class="bi bi-calendar2-heart"></i> Citas
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="t-nav-link{% if active == 'tarjeta' %} active{% endif %}" href="/mi-tarjeta">
+            <i class="bi bi-person-vcard"></i> Mi tarjeta
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="t-nav-link{% if active == 'servicios' %} active{% endif %}" href="/services">
+            <i class="bi bi-stars"></i> Servicios
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="t-nav-link{% if active == 'tienda' %} active{% endif %}" href="/tienda">
+            <i class="bi bi-shop"></i> Tienda
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="t-nav-link{% if active == 'carrito' %} active{% endif %}" href="/carrito">
+            <i class="bi bi-bag"></i> Carrito
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="t-nav-link{% if active == 'especialistas' %} active{% endif %}" href="/specialists">
+            <i class="bi bi-person-hearts"></i> Especialistas
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="t-nav-link{% if active == 'perfil' %} active{% endif %}" href="/profile">
+            <i class="bi bi-person-circle"></i> Mi perfil
+          </a>
+        </li>
+        <li class="nav-item">
+          <button type="button" class="t-nav-link t-nav-btn" data-bs-toggle="modal" data-bs-target="#logoutModal">
+            <i class="bi bi-box-arrow-right"></i> Salir
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<script>
+    document.addEventListener('click', function (e) {
+        var trigger = e.target.closest('[data-bs-target="#logoutModal"]');
+        if (trigger) {
+            var menu = document.getElementById('clientMenu');
+            if (menu && menu.classList.contains('show')) {
+                bootstrap.Collapse.getInstance(menu)?.hide();
+            }
+        }
+    });
+</script>
