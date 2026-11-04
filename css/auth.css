@@ -1,0 +1,709 @@
+@import url('shalom-reset.css');
+
+/* ==========================================================================
+   SHALOM BEAUTY SALON — VISTAS DE AUTENTICACION
+   Login | Registro | Recuperar contrasena
+   Extension digital de la tarjeta de fidelidad SHALOM.
+   Acabado glossy / rosa cromado / brillos / corazones / estrellas /
+   diamantes / corona / puntos halftone / bordes premium redondeados.
+   Fuentes: Playfair Display (marca/titulos) · Parisienne (frases) ·
+            Poppins (formularios).
+   ========================================================================== */
+
+a{color:#C9366C}
+
+:root{
+    --bg-main:#FFF7FA;
+    --bg-sec:#FFF0F5;
+    --pink-pastel:#FFE5EE;
+    --pink-light:#FFD0DF;
+    --pink:#F58AAF;
+    --pink-dark:#C9366C;
+    --fuchsia:#E94F87;
+    --fuchsia-deep:#C02E66;
+    --white:#FFFFFF;
+    --text-sec:#6B5B68;
+    --text-main:#3F3540;
+    --line:#F3D9E3;
+    --shadow:0 30px 70px rgba(179,66,116,.20);
+    --shadow-soft:0 14px 34px rgba(201,54,108,.12);
+    --gloss-top:inset 0 1px 0 rgba(255,255,255,.95);
+    --font-serif:'Playfair Display',serif;
+    --font-script:'Parisienne',cursive;
+    --font-body:'Poppins',sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{height:100%}
+
+body{
+  font-family:var(--font-body);
+  color:var(--text-main);
+  min-height:100vh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* =========================================================
+   FONDO PRINCIPAL — rosa pastel con brillos y halftone
+   ========================================================= */
+.auth-page{
+  position:relative;
+  min-height:100vh;
+  height:auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:40px 20px 56px;
+  background:
+    radial-gradient(1100px 600px at 85% -10%, rgba(245,138,175,.30), transparent 60%),
+    radial-gradient(900px 540px at -10% 108%, rgba(233,79,135,.20), transparent 60%),
+    radial-gradient(700px 500px at 50% 45%, rgba(255,224,236,.55), transparent 65%),
+    linear-gradient(150deg,var(--bg-main) 0%,var(--bg-sec) 55%,var(--pink-pastel) 100%);
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+
+/* puntos halftone muy sutiles sobre el fondo */
+.auth-page::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background-image:radial-gradient(rgba(201,54,108,.10) 1.4px, transparent 1.5px);
+  background-size:26px 26px;
+  opacity:.5;
+  z-index:0;
+}
+
+/* destellos de luz */
+.auth-page::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+  background:
+    radial-gradient(2px 2px at 12% 18%, rgba(255,255,255,.95), transparent 60%),
+    radial-gradient(2px 2px at 88% 12%, rgba(255,255,255,.9), transparent 60%),
+    radial-gradient(3px 3px at 74% 82%, rgba(255,255,255,.85), transparent 60%),
+    radial-gradient(2px 2px at 22% 74%, rgba(255,255,255,.8), transparent 60%),
+    radial-gradient(1.5px 1.5px at 50% 6%, rgba(255,255,255,.9), transparent 60%);
+  opacity:.7;
+}
+
+/* =========================================================
+   ORNAMENTOS FLOTANTES GLOSSY (corazon, estrella, diamante)
+   ========================================================= */
+.auth-page .float-ornament{
+  position:absolute;
+  z-index:2;
+  pointer-events:none;
+  animation:shalomFloat 7s ease-in-out infinite;
+  filter:drop-shadow(0 8px 14px rgba(201,54,108,.25));
+}
+@keyframes shalomFloat{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-16px) rotate(8deg)}
+}
+.auth-page .fo-1{top:8%;left:6%;width:34px;animation-delay:.2s}
+.auth-page .fo-2{top:16%;right:8%;width:26px;animation-delay:.9s}
+.auth-page .fo-3{bottom:12%;left:9%;width:24px;animation-delay:.5s}
+.auth-page .fo-4{bottom:8%;right:7%;width:38px;animation-delay:1.2s}
+.auth-page .fo-5{top:42%;left:3%;width:18px;animation-delay:1.6s}
+.auth-page .fo-6{top:58%;right:4%;width:20px;animation-delay:.4s}
+
+/* =========================================================
+   CONTENEDOR UNICO — una sola vista a la vez (login O registro)
+   Tarjeta central centrada, como la tarjeta de fidelidad
+   ========================================================= */
+.auth-wrap{
+  position:relative;
+  z-index:3;
+  width:100%;
+  max-width:640px;
+  margin:auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.auth-wrap .auth-panel{width:100%}
+.auth-wrap .login-panel{max-width:560px}
+.auth-wrap .register-panel{max-width:640px}
+
+/* =========================================================
+   CABECERA DE MARCA SOBRE LA TARJETA
+   ========================================================= */
+.brand-head-hero{
+  margin-bottom:30px;
+}
+.brand-head-hero .brand-logo{font-size:2.35rem}
+.brand-head-hero .brand-sub{font-size:1.5rem}
+.brand-head-hero .brand-divider{width:230px;margin:16px auto 0}
+
+/* =========================================================
+   PANEL PREMIUM (extension digital de la tarjeta)
+   ========================================================= */
+.auth-panel{
+  position:relative;
+  border-radius:36px;
+  padding:52px 46px;
+  background:
+    radial-gradient(420px 260px at 80% -10%, rgba(255,255,255,.95), transparent 60%),
+    radial-gradient(360px 320px at -12% 110%, rgba(255,208,223,.55), transparent 65%),
+    linear-gradient(165deg, rgba(255,255,255,.985) 0%, rgba(255,247,250,.97) 42%, rgba(255,229,238,.96) 100%);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:
+    0 25px 60px rgba(179,66,116,.18),
+    0 8px 24px rgba(201,54,108,.10),
+    inset 0 1px 0 rgba(255,255,255,.98),
+    inset 0 -30px 60px rgba(255,208,223,.22);
+  backdrop-filter:blur(14px);
+  overflow:hidden;
+  transition:box-shadow .4s ease;
+}
+.auth-panel:hover{
+  box-shadow:
+    0 30px 70px rgba(179,66,116,.22),
+    0 10px 28px rgba(201,54,108,.12),
+    inset 0 1px 0 rgba(255,255,255,.98),
+    inset 0 -30px 60px rgba(255,208,223,.22);
+}
+
+/* brillo glossy diagonal */
+.auth-panel::before{
+  content:'';
+  position:absolute;
+  top:-42%;
+  left:-18%;
+  width:78%;
+  height:120%;
+  background:linear-gradient(115deg, rgba(255,255,255,.62), rgba(255,255,255,.12) 42%, transparent 62%);
+  transform:rotate(-9deg);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* anillo de joyeria (borde interior) */
+.auth-panel::after{
+  content:'';
+  position:absolute;
+  inset:14px;
+  border-radius:26px;
+  border:1px dashed rgba(233,79,135,.34);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* franja halftone inferior, como la tarjeta fisica */
+.auth-panel .halftone-strip{
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:16px;
+  background-image:radial-gradient(rgba(201,54,108,.28) 1.5px, transparent 1.6px);
+  background-size:12px 12px;
+  opacity:.5;
+  pointer-events:none;
+  z-index:0;
+}
+
+.auth-panel > *{position:relative;z-index:2}
+
+/* =========================================================
+   ORNAMENTOS DENTRO DEL PANEL
+   ========================================================= */
+.panel-ornaments svg{
+  position:absolute;
+  z-index:1;
+  pointer-events:none;
+  opacity:.55;
+  filter:drop-shadow(0 6px 12px rgba(201,54,108,.22));
+}
+.panel-ornaments .po-crown{top:22px;left:30px;width:26px;animation:shalomFloat 6s ease-in-out infinite}
+.panel-ornaments .po-star{top:26px;right:34px;width:20px;animation:shalomFloat 7s ease-in-out infinite .4s}
+.panel-ornaments .po-heart{bottom:34px;left:34px;width:22px;animation:shalomFloat 6.5s ease-in-out infinite .8s}
+.panel-ornaments .po-gem{bottom:30px;right:34px;width:20px;animation:shalomFloat 7.5s ease-in-out infinite .2s}
+
+/* =========================================================
+   MARCA SHALOM (efecto cromado rosa + diamante)
+   ========================================================= */
+.brand-head{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  margin-bottom:6px;
+}
+.brand-name-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+.brand-diamond{
+  width:22px;
+  height:22px;
+  filter:drop-shadow(0 4px 8px rgba(201,54,108,.4));
+  animation:gemShine 5s ease-in-out infinite;
+}
+.brand-logo{
+  font-family:var(--font-serif);
+  font-size:2.1rem;
+  font-weight:700;
+  letter-spacing:.24em;
+  background:linear-gradient(160deg,#FFFFFF 0%,#FFD6E4 24%,#E94F87 52%,#FF9FC3 78%,#FFF6FA 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  filter:drop-shadow(0 2px 3px rgba(192,46,102,.35)) drop-shadow(0 0 18px rgba(245,138,175,.35));
+  text-indent:.24em; /* compensa el letter-spacing para centrar visualmente */
+}
+.brand-sub{
+  font-family:var(--font-script);
+  font-size:1.35rem;
+  color:var(--fuchsia);
+  letter-spacing:.04em;
+  text-shadow:0 1px 0 rgba(255,255,255,.8);
+}
+@keyframes gemShine{0%,100%{opacity:1}50%{opacity:.75}}
+
+/* divisor con corazon bajo la marca */
+.brand-divider{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:70%;
+  margin:14px auto 4px;
+}
+.brand-divider::before,.brand-divider::after{
+  content:'';
+  flex:1;
+  height:1.5px;
+  background:linear-gradient(90deg,transparent,rgba(233,79,135,.55));
+  border-radius:999px;
+}
+.brand-divider::after{background:linear-gradient(90deg,rgba(233,79,135,.55),transparent)}
+.brand-divider svg{width:16px;height:16px;filter:drop-shadow(0 3px 6px rgba(233,79,135,.4))}
+
+/* =========================================================
+   TITULOS Y TEXTOS
+   ========================================================= */
+.panel-title{
+  font-family:var(--font-serif);
+  font-size:2.15rem;
+  font-weight:700;
+  text-align:center;
+  letter-spacing:.1em;
+  color:var(--pink-dark);
+  margin-top:18px;
+}
+.panel-script{
+  font-family:var(--font-script);
+  font-size:1.55rem;
+  color:var(--fuchsia);
+  text-align:center;
+  margin-top:2px;
+}
+.panel-text{
+  color:var(--text-sec);
+  font-weight:300;
+  font-size:.84rem;
+  line-height:1.85;
+  text-align:center;
+  margin:12px auto 4px;
+  max-width:300px;
+}
+
+/* corazon decorativo junto a las frases */
+.panel-heart-note{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--pink);
+  margin:8px 0 18px;
+}
+.panel-heart-note svg{width:17px;height:17px;filter:drop-shadow(0 3px 6px rgba(233,79,135,.45))}
+
+/* =========================================================
+   FORMULARIO
+   ========================================================= */
+.auth-form{margin-top:6px}
+
+.field{position:relative;margin-bottom:18px}
+.field .field-icon{
+  position:absolute;
+  left:16px;top:50%;
+  transform:translateY(-50%);
+  color:var(--pink);
+  font-size:1.02rem;
+  z-index:2;
+  pointer-events:none;
+  transition:color .3s ease;
+}
+.field .form-control{
+  width:100%;
+  background:rgba(255,255,255,.92);
+  border:1.5px solid var(--pink-light);
+  border-radius:18px;
+  padding:14px 52px 14px 44px;
+  font-size:.88rem;
+  font-family:var(--font-body);
+  color:var(--text-main);
+  transition:.3s ease;
+  box-shadow:0 8px 20px rgba(201,54,108,.05), inset 0 1px 2px rgba(255,255,255,.9);
+}
+.field .form-control::placeholder{color:#c9a9b5;font-weight:300}
+.field .form-control:focus{
+  border-color:var(--fuchsia);
+  background:#fff;
+  box-shadow:0 0 0 .26rem rgba(245,138,175,.18), 0 10px 26px rgba(201,54,108,.10);
+  outline:none;
+}
+.field .form-control:focus + .field-icon,
+.field:has(.form-control:focus) .field-icon{
+  color:var(--fuchsia);
+}
+.field .form-label{
+  display:block;
+  font-size:.74rem;
+  font-weight:600;
+  letter-spacing:.08em;
+  color:var(--text-main);
+  margin:0 0 6px 4px;
+}
+
+/* boton mostrar/ocultar contrasena */
+.toggle-pass{
+  position:absolute;
+  right:6px;top:50%;
+  transform:translateY(-50%);
+  width:40px;height:40px;
+  border:none;
+  background:transparent;
+  color:var(--pink);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.02rem;
+  cursor:pointer;
+  transition:.3s;
+}
+.toggle-pass:hover{background:var(--pink-pastel);color:var(--fuchsia)}
+
+/* =========================================================
+   RECORDARME + OLVIDASTE CONTRASENA
+   ========================================================= */
+.auth-options{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:2px 2px 20px;
+}
+.remember{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;color:var(--text-sec);cursor:pointer;user-select:none}
+.remember input{width:17px;height:17px;accent-color:var(--fuchsia);cursor:pointer}
+.remember span{font-weight:400}
+.forgot-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:.78rem;
+  font-weight:600;
+  color:var(--pink-dark);
+  text-decoration:none;
+  transition:.3s;
+}
+.forgot-link svg{width:14px;height:14px}
+.forgot-link:hover{color:var(--fuchsia)}
+
+/* =========================================================
+   BOTON GLOSSY PRINCIPAL
+   ========================================================= */
+.btn-glossy{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  width:100%;
+  padding:16px 24px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.6);
+  background:linear-gradient(120deg,#C02E66 0%,#E94F87 38%,#F58AAF 64%,#E94F87 100%);
+  background-size:200% 100%;
+  background-position:0 0;
+  color:#fff;
+  font-family:var(--font-body);
+  font-size:.9rem;
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:.35s;
+  box-shadow:
+    0 16px 34px rgba(233,79,135,.42),
+    inset 0 1px 0 rgba(255,255,255,.55),
+    inset 0 -3px 8px rgba(160,30,80,.28);
+  overflow:hidden;
+}
+.btn-glossy svg{width:17px;height:17px;flex:none}
+.btn-glossy::after{
+  content:'';
+  position:absolute;
+  top:5px;left:16%;
+  width:26%;height:36%;
+  background:linear-gradient(100deg,rgba(255,255,255,.85),rgba(255,255,255,.08));
+  border-radius:999px;
+  transform:rotate(-10deg);
+  pointer-events:none;
+  filter:blur(.3px);
+}
+.btn-glossy:hover{
+  transform:translateY(-3px);
+  background-position:100% 0;
+  box-shadow:
+    0 24px 46px rgba(233,79,135,.5),
+    inset 0 1px 0 rgba(255,255,255,.6),
+    inset 0 -3px 8px rgba(160,30,80,.3);
+}
+.btn-glossy:active{transform:translateY(-1px)}
+.btn-glossy:disabled{opacity:.6;cursor:not-allowed}
+
+/* =========================================================
+   DIVISOR (O continúa con)
+   ========================================================= */
+.divider{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin:24px 0 18px;
+  color:var(--text-sec);
+  font-size:.68rem;
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.divider::before,.divider::after{
+  content:'';
+  flex:1;
+  height:1px;
+}
+.divider::before{background:linear-gradient(90deg,transparent,rgba(233,79,135,.5))}
+.divider::after{background:linear-gradient(90deg,rgba(233,79,135,.5),transparent)}
+.divider .divider-jewel{color:var(--fuchsia);display:inline-flex;align-items:center}
+.divider .divider-jewel svg{width:15px;height:15px;filter:drop-shadow(0 3px 6px rgba(233,79,135,.45))}
+
+/* =========================================================
+   BOTON GOOGLE (logo oficial)
+   ========================================================= */
+.btn-google{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  width:100%;
+  padding:13px 24px;
+  border-radius:999px;
+  background:#fff;
+  border:1.5px solid var(--line);
+  color:var(--text-main);
+  font-family:var(--font-body);
+  font-size:.88rem;
+  font-weight:600;
+  text-decoration:none;
+  cursor:pointer;
+  transition:.3s;
+  box-shadow:0 10px 24px rgba(201,54,108,.08);
+}
+.btn-google svg{width:20px;height:20px;flex:none}
+.btn-google:hover{
+  border-color:var(--pink);
+  box-shadow:0 16px 32px rgba(201,54,108,.16);
+  transform:translateY(-2px);
+}
+
+/* =========================================================
+   ENLACES INFERIORES (cambiar a login/registro)
+   ========================================================= */
+.switch-call{
+  text-align:center;
+  margin-top:24px;
+  font-size:.82rem;
+  color:var(--text-sec);
+  font-weight:300;
+  line-height:1.7;
+}
+.switch-call a{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:var(--fuchsia);
+  font-weight:600;
+  font-size:.84rem;
+  text-decoration:none;
+  transition:.3s;
+  margin-left:4px;
+}
+.switch-call a svg{width:15px;height:15px;transition:.3s}
+.switch-call a:hover{color:var(--pink-dark)}
+.switch-call a:hover svg{transform:translateX(4px)}
+
+/* =========================================================
+   ALERTAS (error login / errores registro / reset)
+   ========================================================= */
+.auth-alert{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  background:linear-gradient(120deg,#fff,var(--bg-sec));
+  border:1px solid var(--pink-light);
+  border-radius:16px;
+  padding:12px 16px;
+  margin:14px 0;
+  box-shadow:0 8px 20px rgba(201,54,108,.08);
+  color:var(--pink-dark);
+  font-size:.8rem;
+  font-weight:500;
+}
+.auth-alert ul{margin:0;padding-left:18px}
+.auth-alert svg{width:17px;height:17px;flex:none;margin-top:1px;color:var(--fuchsia)}
+.auth-alert-success{
+  background:linear-gradient(120deg,#fff,#eaf7ee);
+  border-color:#bfe3cc;
+  color:#2e7d52;
+}
+.auth-alert-success i{color:#3fa468}
+.field .invalid-feedback{display:block;font-size:.72rem;color:var(--fuchsia-deep);font-weight:500;margin:5px 0 0 6px}
+
+/* =========================================================
+   PANEL UNICO (forgot / reset) — reuso auth-panel
+   ========================================================= */
+.single-wrap{
+  position:relative;
+  z-index:3;
+  width:100%;
+  max-width:520px;
+  margin:auto;
+}
+.single-wrap .auth-panel{padding:50px 44px}
+
+/* caja donde se muestra el enlace de recuperacion */
+.reset-box{
+  background:linear-gradient(120deg,var(--bg-sec),var(--pink-pastel));
+  border:1.5px solid var(--pink-light);
+  border-radius:18px;
+  padding:16px 18px;
+  margin:18px 0;
+  text-align:center;
+  box-shadow:var(--shadow-soft);
+}
+.reset-box .reset-note{font-size:.76rem;color:var(--text-sec);font-weight:300;margin-bottom:8px}
+.reset-link{
+  display:inline-block;
+  word-break:break-all;
+  font-family:var(--font-body);
+  font-size:.8rem;
+  font-weight:600;
+  color:var(--fuchsia);
+  text-decoration:underline;
+  text-underline-offset:3px;
+  background:#fff;
+  padding:10px 16px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow-soft);
+}
+.reset-link:hover{color:var(--pink-dark)}
+
+/* =========================================================
+   RESPONSIVE (1920 · 1600 · 1440 · 1366 · 1280 · 1024 · 768 · 480 · 390 · 375)
+   ========================================================= */
+@media (max-width:1199.98px){
+  .auth-wrap{max-width:580px}
+}
+
+@media (max-width:991.98px){
+  .auth-panel{padding:42px 34px;border-radius:30px}
+  .brand-logo{font-size:1.9rem}
+  .panel-title{font-size:1.85rem}
+  .auth-panel::after{inset:10px;border-radius:22px}
+}
+
+@media (max-width:767.98px){
+  .auth-page{padding:30px 16px 44px}
+  .auth-wrap{max-width:100%}
+  .auth-wrap .auth-panel{max-width:100%}
+  .auth-panel{padding:36px 26px;border-radius:28px}
+  .brand-head-hero{margin-bottom:22px}
+  .brand-logo{font-size:1.7rem}
+  .brand-head-hero .brand-sub{font-size:1.3rem}
+  .panel-title{font-size:1.65rem;margin-top:14px}
+  .panel-script{font-size:1.35rem}
+  .auth-panel::after{inset:8px;border-radius:20px}
+  .auth-panel .halftone-strip{height:12px}
+  .panel-ornaments .po-crown{top:16px;left:20px}
+  .panel-ornaments .po-star{top:18px;right:22px}
+  .panel-ornaments .po-heart{bottom:24px;left:22px}
+  .panel-ornaments .po-gem{bottom:22px;right:22px}
+  .auth-panel .form-control{font-size:1rem}
+}
+
+@media (max-width:575.98px){
+  .auth-page{padding:22px 12px 38px}
+  .auth-panel{padding:32px 20px;border-radius:24px}
+  .field{margin-bottom:13px}
+  .field .form-control{padding:13px 46px 13px 40px}
+  .auth-options{gap:10px}
+  .btn-glossy{padding:15px 20px;font-size:.82rem}
+  .btn-google{padding:12px 18px;font-size:.84rem}
+  .brand-head-hero .brand-logo{font-size:1.55rem}
+  .brand-head-hero .brand-sub{font-size:1.1rem}
+  .brand-head-hero .brand-divider{width:170px}
+  .auth-page .float-ornament{display:none}
+}
+
+@media (max-width:479.98px){
+  .auth-page{padding:18px 10px 32px}
+  .auth-panel{padding:28px 16px;border-radius:20px}
+  .auth-panel::after{inset:6px;border-radius:16px}
+  .brand-logo{font-size:1.4rem}
+  .brand-head-hero .brand-sub{font-size:1rem}
+  .brand-head-hero .brand-divider{width:140px;margin:10px auto 0}
+  .panel-title{font-size:1.45rem;margin-top:10px}
+  .panel-script{font-size:1.15rem}
+  .panel-text{font-size:.78rem}
+  .field .form-label{font-size:.7rem}
+  .field .form-control{padding:12px 42px 12px 38px;font-size:.88rem}
+  .toggle-pass{width:36px;height:36px;font-size:.92rem}
+  .btn-glossy{padding:14px 18px;font-size:.78rem;letter-spacing:.12em}
+  .btn-google{padding:11px 16px;font-size:.8rem}
+  .switch-call{font-size:.76rem}
+  .switch-call a{font-size:.78rem}
+  .divider{margin:20px 0 14px;font-size:.62rem}
+  .auth-options{flex-direction:column;align-items:flex-start;gap:6px}
+}
+
+@media (max-width:389.98px){
+  .auth-page{padding:14px 8px 28px}
+  .auth-panel{padding:24px 14px;border-radius:18px}
+  .brand-logo{font-size:1.3rem;letter-spacing:.2em}
+  .brand-head-hero .brand-sub{font-size:.92rem}
+  .panel-title{font-size:1.3rem}
+  .panel-script{font-size:1.05rem}
+  .panel-text{font-size:.74rem}
+  .field .form-control{padding:11px 40px 11px 36px;font-size:.84rem}
+  .btn-glossy{padding:13px 16px;font-size:.75rem}
+  .btn-google{padding:10px 14px;font-size:.76rem}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+}
